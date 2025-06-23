@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_400"
+    tools:context=".MainActivity">
+
+    <!-- Profile Button styled as cube -->
+    <ImageButton
+        android:id="@+id/main_BTN_Profile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/user"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/user"
+        android:scaleType="centerCrop"
+        android:contentDescription="Profile" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/main_LBL_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Start Working!"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_below="@id/main_BTN_Profile" />
+
+    <!-- Add Board Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/main_BTN_AddBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_board"
+        android:textColor="@android:color/white"
+        app:cornerRadius="24dp"
+        app:backgroundTint="@color/teal_light"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/main_LBL_title"
+        android:layout_marginTop="16dp" />
+
+    <!-- Boards Fragment -->
+    <FrameLayout
+        android:id="@+id/main_FRAME_boardList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/main_BTN_AddBoard"
+        android:layout_above="@id/main_IMG_logo"
+        android:layout_marginTop="16dp"
+        android:outlineSpotShadowColor="@color/teal_light"
+        android:outlineAmbientShadowColor="@color/teal_light"
+        android:layout_marginHorizontal="16dp" />
+
+    <!-- Plant logo above footer -->
+    <ImageView
+        android:id="@+id/main_IMG_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/plant_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/main_LBL_footer"
+        android:contentDescription="App Logo" />
+
+    <!-- Footer -->
+    <TextView
+        android:id="@+id/main_LBL_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task Sprout"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="@color/teal_light"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp" />
+</RelativeLayout>

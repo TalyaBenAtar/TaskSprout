@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">TaskSprout</string>
+    <string name="storage">Storage</string>
+    <string name="firestore">Firestore</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="enter_a_message_to_save">Enter a message to save</string>
+    <string name="save">Save</string>
+    <string name="task_board">Task Board</string>
+    <string name="to_do">To Do</string>
+    <string name="in_progress">In Progress</string>
+    <string name="done">Done</string>
+    <string name="neglect">Neglect</string>
+    <string name="settings">settings</string>
+    <string name="add_new_board">+ Add New Board</string>
+    <string name="add">add</string>
+    <string-array name="task_status_array">
+        <item>To Do</item>
+        <item>In Progress</item>
+        <item>Done</item>
+        <item>Neglected</item>
+    </string-array>
+
+</resources>

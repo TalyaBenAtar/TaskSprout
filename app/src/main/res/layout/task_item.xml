@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/task_CV_data"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/blue_400"
+    android:foreground="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Image on left -->
+        <ImageView
+            android:id="@+id/task_IMG_stage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/plant_seed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Date on top right -->
+        <TextView
+            android:id="@+id/task_LBL_addedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025-01-01"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/task_LBL_new_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEW"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:background="@drawable/new_badge_background"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/task_LBL_addedDate"
+            app:layout_constraintEnd_toEndOf="@id/task_LBL_addedDate"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp" />
+
+        <!-- Task name -->
+        <TextView
+            android:id="@+id/task_LBL_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Task Name"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/task_IMG_stage"
+            app:layout_constraintEnd_toStartOf="@id/task_LBL_addedDate"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Description under task name -->
+        <TextView
+            android:id="@+id/task_LBL_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="This is the description of the task..."
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/task_LBL_name"
+            app:layout_constraintStart_toStartOf="@id/task_LBL_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/task_LBL_assignedTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assigned to: Name"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/task_LBL_description"
+            app:layout_constraintStart_toStartOf="@id/task_LBL_description"
+            android:layout_marginTop="8dp" />
+
+        <!-- Assigned Button or Label -->
+        <Button
+            android:id="@+id/task_BTN_claim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Claim"
+            android:textSize="12sp"
+            android:backgroundTint="@color/teal_light"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/task_LBL_new_bubble"
+            app:layout_constraintEnd_toEndOf="@id/task_LBL_new_bubble"
+            android:layout_marginTop="4dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

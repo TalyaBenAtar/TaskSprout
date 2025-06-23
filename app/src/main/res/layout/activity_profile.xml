@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_400">
+
+    <!-- Top Row Buttons -->
+    <LinearLayout
+        android:id="@+id/profile_TOP_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/profile_BTN_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/teal_light"
+            android:layout_marginEnd="130dp" />
+
+        <Button
+            android:id="@+id/profile_BTN_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="Sign Out"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/teal_light" />
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/profile_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_TOP_buttons"
+        android:layout_above="@id/profile_BOTTOM_buttons"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Profile Info Row -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/profile_IMG_avatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user" />
+
+                <LinearLayout
+                    android:id="@+id/profile_text_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@id/profile_BTN_edit_name"
+                    android:layout_toEndOf="@id/profile_IMG_avatar"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/profile_LBL_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:layout_marginTop="18dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/profile_LBL_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="email@example.com"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/profile_BTN_edit_name"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/edit_info"
+
+                    />
+            </RelativeLayout>
+
+            <!-- Green Banner -->
+            <ImageView
+                android:id="@+id/profile_view_banner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/teal_light"
+                android:layout_marginBottom="16dp" />
+
+            <!-- XP and Task Count -->
+            <TextView
+                android:id="@+id/profile_LBL_xp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5000XP"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/profile_LBL_task_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You finished 40 tasks!"
+                android:textSize="25sp"
+                android:textColor="@color/teal_light"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Task Status -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task status:"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/profile_LBL_task_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal_light"
+                android:text="5 To Do's\n3 In Progress\n40 Done\n8 Neglected"
+                android:textSize="20sp"
+                android:layout_marginBottom="80dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Buttons -->
+    <LinearLayout
+        android:id="@+id/profile_BOTTOM_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/profile_BTN_forest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="My Forest"
+            android:backgroundTint="@color/teal_light"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/profile_BTN_achievements"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="My Achievements"
+            android:backgroundTint="@color/teal_light"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/beige_400"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/dialog_BTN_edit_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Board"
+        android:backgroundTint="@color/teal_light"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/dialog_BTN_delete_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Board"
+        android:backgroundTint="@color/red_dark"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp" />
+
+
+    <Button
+        android:id="@+id/dialog_BTN_remove_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove User"
+        android:backgroundTint="@color/grey"
+        android:textColor="@android:color/white" />
+</LinearLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teal_light"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/beige_400">
+
+        <EditText
+            android:id="@+id/dialog_ET_task_name"
+            android:hint="Task Name"
+            android:textColorHint="@color/grey"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/dialog_ET_task_description"
+            android:hint="Description"
+            android:textColorHint="@color/grey"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Spinner
+            android:id="@+id/dialog_spinner_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:entries="@array/task_status_array"
+            android:backgroundTint="@color/teal_light"
+            android:popupBackground="@color/beige_400"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/dialog_BTN_add_task"
+            android:text="Add Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/teal_light"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
