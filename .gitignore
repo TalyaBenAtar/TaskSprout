@@ -13,3 +13,23 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Firebase config (DO NOT SHARE)
+**/google-services.json
+
+# Keystore & credentials
+*.keystore
+*.jks
+
+# IDE / Android Studio files
+.idea/
+.kotlinc/
+.gradle/
+local.properties
+
+# Build outputs
+build/
+app/build/
+
+# Logs
+*.log
