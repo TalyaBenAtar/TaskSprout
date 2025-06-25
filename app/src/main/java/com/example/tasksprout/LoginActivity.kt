@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tasksprout.utilities.SignalManager
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -68,7 +69,8 @@ class LoginActivity : AppCompatActivity() {
             transactToMainActivity()
             // ...
         } else {
-            Toast.makeText(this, "Login failed or canceled", Toast.LENGTH_SHORT).show()
+            SignalManager.getInstance().toast("Login failed or canceled")
+//            Toast.makeText(this, "Login failed or canceled", Toast.LENGTH_SHORT).show()
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.

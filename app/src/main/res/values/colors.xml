@@ -22,5 +22,12 @@
     <color name="orange_200">#FFCC80</color>
     <color name="green_200">#A5D6A7</color>
     <color name="red_dark">#CA2B27</color>
+    <color name="light_beige">#FBDDBE</color>
+    <color name="soft_pink">#FFB6C1</color>
+    <color name="soft_blue">#ADD8E6</color>
+    <color name="soft_green">#81C381</color>
+    <color name="soft_gold">#FFD700</color>
+    <color name="soft_salmon">#FFA07A</color>
+
 
 </resources>

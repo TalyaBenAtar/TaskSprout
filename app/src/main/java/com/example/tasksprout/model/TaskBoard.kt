@@ -8,7 +8,13 @@ data class TaskBoard(
     val users: List<BoardUser> = emptyList(),
     val tasks: List<Task> = emptyList(),
     val description: String = "",
-    val releaseDate: String = ""
+    val releaseDate: String = "",
+    var xpClaim: Int =5,
+    var xpTodoToInProgress: Int = 10,
+    var xpToDone: Int=50,
+    var xpToNeglected: Int = -30,
+    var xpNeglectedRecovered:Int =15
+
 ) : Serializable{
     class Builder {
         private var name: String = ""

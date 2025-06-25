@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/board_settings_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/teal_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/beige_400"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/board_setting_BTN_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/teal_light"
+            android:layout_marginStart="150dp" />
+
+        <!-- Section 1: XP Settings (Manager Only) -->
+        <LinearLayout
+            android:id="@+id/board_Settings_XP_Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:outlineAmbientShadowColor="@color/teal_light"
+            android:background="#FACFA4"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XP Settings (Manager Only)"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_Text_Claim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:hint="XP for Claiming Task"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edit_Text_Todo_To_In_Progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:hint="XP for TODO → In Progress"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edit_Text_To_Done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:hint="XP for Moving to Done"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edit_Text_To_Neglected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:hint="XP Loss for Neglecting Task"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/edit_Text_Neglected_Recovered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey"
+                android:textColor="@color/black"
+                android:hint="XP for Recovering Neglected Task"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/btn_Save_XP_Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save XP Settings"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/teal_light"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Section 2: Leaderboard -->
+        <LinearLayout
+            android:id="@+id/board_Settings_Leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:outlineSpotShadowColor="@color/teal_light"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/board_Settings_LBL_Leaderboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leaderboard"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/settings_RV_leaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Section 3: Pie Charts -->
+        <LinearLayout
+            android:id="@+id/settings_layout_charts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task Stats per Status"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/board_Settings_Chart_Claimed"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="24dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/boardSettingsChartTodo"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="24dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/board_Settings_Chart_In_Progress"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="24dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/board_Settings_Chart_Done"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="24dp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/board_Settings_Chart_Neglected"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

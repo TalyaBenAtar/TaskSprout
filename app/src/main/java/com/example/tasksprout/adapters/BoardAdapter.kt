@@ -38,13 +38,11 @@ class BoardAdapter(
 
         fun bind(board: TaskBoard) {
             val context = itemView.context
-            if (com.example.tasksprout.model.TaskBoardDataManager.hasBoardBeenOpened(board.name)) {
+            if (TaskBoardDataManager.hasBoardBeenOpened(board.name)) {
                 binding.boardLBLNewBubble.visibility = View.INVISIBLE
             } else {
                 binding.boardLBLNewBubble.visibility = View.VISIBLE
             }
-
-
 
             binding.boardLBLAddedDate.text = board.releaseDate
             binding.boardLBLName.text = board.name
@@ -61,7 +59,6 @@ class BoardAdapter(
                 boardCallback?.onBoardLongClicked(board)
                 true
             }
-
 
 
         }

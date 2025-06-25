@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +25,7 @@ import androidx.core.content.ContextCompat
 import com.example.tasksprout.model.BoardUser
 import com.example.tasksprout.model.Role
 import com.example.tasksprout.model.TaskBoardDataManager
+import com.example.tasksprout.utilities.SignalManager
 
 class BoardFragment : Fragment() {
 
@@ -41,6 +41,7 @@ class BoardFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_boards, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.boards_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         boardAdapter = BoardAdapter(boardList)
         boardAdapter.boardCallback = object : Callback_BoardClicked {
             override fun onBoardClicked(board: TaskBoard) {
@@ -68,13 +69,11 @@ class BoardFragment : Fragment() {
         boardAdapter.notifyDataSetChanged()
     }
 
-
     private fun openBoard(board: TaskBoard) {
         val intent = Intent(requireContext(), TaskBoardActivity::class.java)
         intent.putExtra("board", board)
         startActivity(intent)
     }
-
 
     private fun listenToBoardChanges() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
@@ -130,7 +129,7 @@ class BoardFragment : Fragment() {
 
         deleteBtn.setOnClickListener {
             popup.dismiss()
-            deleteBoardFromFirestore(board)
+            TaskBoardDataManager.deleteBoardFromFirestore(board)
         }
 
         removeUserBtn.setOnClickListener {
@@ -172,7 +171,7 @@ class BoardFragment : Fragment() {
             val newDesc = descET.text.toString().trim()
 
             if (newName.isEmpty()) {
-                Toast.makeText(requireContext(), "Board name is required", Toast.LENGTH_SHORT).show()
+                SignalManager.getInstance().toast("Board name is required")
                 return@setOnClickListener
             }
 
@@ -214,31 +213,12 @@ class BoardFragment : Fragment() {
                         .document(docId)
                         .set(updatedBoard)
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Board updated", Toast.LENGTH_SHORT).show()
+                            SignalManager.getInstance().toast("Board updated")
                             dialog.dismiss()
                         }
                 }
         }
-
         dialog.show()
-    }
-
-
-    private fun deleteBoardFromFirestore(board: TaskBoard) {
-        FirebaseFirestore.getInstance()
-            .collection("boards")
-            .whereEqualTo("name", board.name)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val docId = snapshot.documents.firstOrNull()?.id ?: return@addOnSuccessListener
-                FirebaseFirestore.getInstance()
-                    .collection("boards")
-                    .document(docId)
-                    .delete()
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Board deleted", Toast.LENGTH_SHORT).show()
-                    }
-            }
     }
 
 
@@ -257,34 +237,12 @@ class BoardFragment : Fragment() {
                 setTextColor(ContextCompat.getColor(context, android.R.color.white))
                 setOnClickListener {
                     dialog.dismiss()
-                    removeUserFromBoard(board, user.email)
+                    TaskBoardDataManager.removeUserFromBoard(board, user.email)
                 }
             }
             userListContainer.addView(button)
         }
-
         dialog.show()
-    }
-
-
-    private fun removeUserFromBoard(board: TaskBoard, email: String) {
-        val updatedUsers = board.users.filter { it.email != email }
-        val updatedBoard = board.copy(users = updatedUsers)
-
-        FirebaseFirestore.getInstance()
-            .collection("boards")
-            .whereEqualTo("name", board.name)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val docId = snapshot.documents.firstOrNull()?.id ?: return@addOnSuccessListener
-                FirebaseFirestore.getInstance()
-                    .collection("boards")
-                    .document(docId)
-                    .set(updatedBoard)
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Removed $email from board", Toast.LENGTH_SHORT).show()
-                    }
-            }
     }
 
 

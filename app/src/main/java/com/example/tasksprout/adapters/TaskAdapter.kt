@@ -54,7 +54,7 @@ class TaskAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: Task) {
-            //"assgned to: name" logic
+            //"assigned to: name" logic
             val assignedToName = boardUsers.find { it.email == task.assignedTo }?.name ?: "Unknown"
 
             if (task.assignedTo == null) {
@@ -85,7 +85,7 @@ class TaskAdapter(
 
             //"NEW" bubble logic
             val context = itemView.context
-            if (com.example.tasksprout.model.TaskDataManager.hasTaskBeenOpened(task.name)) {
+            if (TaskDataManager.hasTaskBeenOpened(task.name)) {
                 binding.taskLBLNewBubble.visibility = View.INVISIBLE
             } else {
                 binding.taskLBLNewBubble.visibility = View.VISIBLE
@@ -141,10 +141,9 @@ class TaskAdapter(
 
             binding.taskCVData.setOnClickListener {
                 TaskDataManager.markTaskAsOpened(task.name)
-                notifyItemChanged(adapterPosition) // optional: update just this item
+                notifyItemChanged(adapterPosition)
                 showTaskOptionsPopup(it, task)
             }
-
 
             binding.root.setOnLongClickListener {
                 val dragData = ClipData.newPlainText("task_key", "${task.name}|${task.description}")
@@ -152,8 +151,6 @@ class TaskAdapter(
                 it.startDragAndDrop(dragData, shadow, it, 0)
                 true
             }
-
-
         }
     }
 
@@ -177,7 +174,6 @@ class TaskAdapter(
 
         popup.show()
     }
-
 
 
 

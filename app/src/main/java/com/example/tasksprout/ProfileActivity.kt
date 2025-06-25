@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.net.Uri
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +23,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-
-
+import com.example.tasksprout.utilities.SignalManager
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -35,10 +33,9 @@ class ProfileActivity : AppCompatActivity() {
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             selectedImageUri = uri
-            Toast.makeText(this, "Image selected", Toast.LENGTH_SHORT).show()
+            SignalManager.getInstance().toast("Image selected")
         }
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +51,6 @@ class ProfileActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         initViews()
     }
 
@@ -75,7 +71,7 @@ class ProfileActivity : AppCompatActivity() {
                             val user = UserDataManager.currentUser!!
                             // ...
                         } else {
-                            Toast.makeText(this, "Failed to load profile", Toast.LENGTH_SHORT).show()
+                            SignalManager.getInstance().toast("Failed to load profile")
                         }
                     }
                 }, 1000) // Retry after 1 second
@@ -141,18 +137,16 @@ class ProfileActivity : AppCompatActivity() {
                     }.addOnSuccessListener { downloadUrl ->
                         ImageLoader.getInstance().loadImage(downloadUrl.toString(), binding.profileViewBanner)
                         selectedImageUri = null
-                        Toast.makeText(this, "Image uploaded", Toast.LENGTH_SHORT).show()
+                        SignalManager.getInstance().toast("Image uploaded")
                         dialog.dismiss()
                     }.addOnFailureListener {
-                        Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
+                        SignalManager.getInstance().toast("Image upload failed")
                     }
             } else {
                 dialog.dismiss()
             }
         }
-
         dialog.show()
-
     }
 
     private fun uplaodPictureFromStorage(){
@@ -181,7 +175,6 @@ class ProfileActivity : AppCompatActivity() {
                             "${user?.tasksNeglected} Neglected"
             }
         }
-
     }
 
 }

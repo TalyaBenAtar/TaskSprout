@@ -2,6 +2,8 @@ package com.example.tasksprout.model
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.appcompat.app.AlertDialog
+import com.example.tasksprout.utilities.SignalManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,49 +19,25 @@ import kotlin.collections.mapNotNull
 object TaskBoardDataManager {
 
     private const val PREFS_NAME = "task_board_data"
-    private const val KEY_BOARDS = "task_boards"
     private lateinit var sharedPreferences: SharedPreferences
-    private val gson = Gson()
     private const val KEY_OPENED_BOARDS = "opened_boards"
     val taskBoards = mutableListOf<TaskBoard>()
 
+
+//    private const val KEY_BOARDS = "task_boards"
+//    private val gson = Gson()
+
+
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        loadBoards()
-    }
-
-    fun addBoard(board: TaskBoard) {
-        taskBoards.add(board)
-        saveBoards()
     }
 
     fun getAllBoards(): List<TaskBoard> {
         return taskBoards
     }
 
-    fun clearBoards() {
-        taskBoards.clear()
-        saveBoards()
-    }
-
     fun getBoardByName(name: String?): TaskBoard? {
         return taskBoards.find { it.name == name }
-    }
-
-
-    private fun saveBoards() {
-        val json = gson.toJson(taskBoards)
-        sharedPreferences.edit().putString(KEY_BOARDS, json).apply()
-    }
-
-    private fun loadBoards() {
-        taskBoards.clear()
-        val json = sharedPreferences.getString(KEY_BOARDS, null)
-        if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<List<TaskBoard>>() {}.type
-            val loaded = gson.fromJson<List<TaskBoard>>(json, type)
-            taskBoards.addAll(loaded)
-        }
     }
 
     fun createBoardInFirestore(
@@ -69,28 +47,12 @@ object TaskBoardDataManager {
         onFailure: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-
-//        db.collection("users")
-//            .whereIn("email", taskBoard.users)
-//            .get()
-//            .addOnSuccessListener { snapshot ->
-//                val foundEmails = snapshot.documents.mapNotNull { it.getString("email") }
-//                if (foundEmails.size != taskBoard.users.size) {
-//                    onFailure("Some users are not registered.")
-//                    return@addOnSuccessListener
-//                }
-
                 // Save the board
                 db.collection("boards")
                     .add(taskBoard)
                     .addOnSuccessListener { onSuccess() }
                     .addOnFailureListener { e -> onFailure(e.message ?: "Unknown error") }
-//            }
-//            .addOnFailureListener { e ->
-//                onFailure(e.message ?: "Unknown error while validating users")
-//            }
     }
-
 
     fun markBoardAsOpened(name: String) {
         val opened = sharedPreferences.getStringSet(KEY_OPENED_BOARDS, mutableSetOf())?.toMutableSet() ?: mutableSetOf()
@@ -103,4 +65,84 @@ object TaskBoardDataManager {
         return name in opened
     }
 
+     fun deleteBoardFromFirestore(board: TaskBoard) {
+        FirebaseFirestore.getInstance()
+            .collection("boards")
+            .whereEqualTo("name", board.name)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val docId = snapshot.documents.firstOrNull()?.id ?: return@addOnSuccessListener
+                FirebaseFirestore.getInstance()
+                    .collection("boards")
+                    .document(docId)
+                    .delete()
+                    .addOnSuccessListener {
+                        SignalManager.getInstance().toast("Board deleted")
+                    }
+            }
+    }
+
+     fun removeUserFromBoard(board: TaskBoard, email: String) {
+        val updatedUsers = board.users.filter { it.email != email }
+        val updatedBoard = board.copy(users = updatedUsers)
+
+        FirebaseFirestore.getInstance()
+            .collection("boards")
+            .whereEqualTo("name", board.name)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val docId = snapshot.documents.firstOrNull()?.id ?: return@addOnSuccessListener
+                FirebaseFirestore.getInstance()
+                    .collection("boards")
+                    .document(docId)
+                    .set(updatedBoard)
+                    .addOnSuccessListener {
+                        SignalManager.getInstance().toast("Removed $email from board")
+                    }
+            }
+    }
+
+     fun buildUpdatedBoardWithNewUser(board: TaskBoard, newEmail: String): TaskBoard {
+        val newUser = BoardUser(email = newEmail, name = "Anonymous", role = Role.MEMBER)
+
+        return TaskBoard.Builder()
+            .name(board.name)
+            .description(board.description)
+            .users(board.users + newUser)
+            .tasks(board.tasks)
+            .releaseDate(board.releaseDate)
+            .build()
+    }
+
+     fun updateBoardInFirestore(
+        boardName: String,
+        updatedBoard: TaskBoard,
+        dialog: AlertDialog
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("boards")
+            .whereEqualTo("name", boardName)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val docId = snapshot.documents.firstOrNull()?.id
+                if (docId != null) {
+                    FirebaseFirestore.getInstance()
+                        .collection("boards")
+                        .document(docId)
+                        .set(updatedBoard)
+                        .addOnSuccessListener {
+                            SignalManager.getInstance().toast("User added to board")
+                            dialog.dismiss()
+                        }
+                        .addOnFailureListener {
+                            SignalManager.getInstance().toast("Failed to update board")
+                        }
+                } else {
+                    SignalManager.getInstance().toast("Board not found")
+                }
+            }
+            .addOnFailureListener {
+                SignalManager.getInstance().toast("Error accessing Firestore")
+            }
+    }
 }

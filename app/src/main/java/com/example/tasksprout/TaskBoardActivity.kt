@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Toast
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tasksprout.databinding.ActivityProfileBinding
+import com.example.tasksprout.databinding.ActivityTaskBoardBinding
 import com.example.tasksprout.interfaces.Callback_TaskClicked
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
@@ -17,26 +19,26 @@ import com.example.tasksprout.model.TaskDataManager
 import com.example.tasksprout.ui.TaskUpperMenuFragment
 import com.google.android.material.button.MaterialButton
 import com.example.tasksprout.ui.TaskFragment
+import com.example.tasksprout.utilities.SignalManager
 import kotlin.jvm.java
 import com.google.firebase.auth.FirebaseAuth
 
-
 class TaskBoardActivity : AppCompatActivity() {
 
-    private lateinit var game_BTN_DeleteData: MaterialButton
-    private lateinit var game_BTN_Menu: MaterialButton
     private lateinit var main_FRAME_task: FrameLayout
     private lateinit var main_FRAME_task_board_menu: FrameLayout
     private lateinit var taskUpperMenuFragmant: TaskUpperMenuFragment
     private lateinit var taskFragment: TaskFragment
     private lateinit var main_FRAME_bottom: FrameLayout
     private lateinit var board: TaskBoard
-
+    private lateinit var binding: ActivityTaskBoardBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TaskDataManager.init(applicationContext)
+        binding = ActivityTaskBoardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_task_board)
@@ -48,13 +50,11 @@ class TaskBoardActivity : AppCompatActivity() {
 
         val boardFromIntent = intent.getSerializableExtra("board") as? TaskBoard
         if (boardFromIntent == null) {
-            Toast.makeText(this, "Board not found", Toast.LENGTH_SHORT).show()
+            SignalManager.getInstance().toast("Board not found")
             finish()
             return
         }
         board = boardFromIntent
-
-
 
         findViews()
         initViews()
@@ -64,20 +64,9 @@ class TaskBoardActivity : AppCompatActivity() {
         main_FRAME_task_board_menu = findViewById(R.id.main_FRAME_task_board_menu)
         main_FRAME_task = findViewById(R.id.main_FRAME_tasks)
         main_FRAME_bottom = findViewById(R.id.main_FRAME_bottom)
-//        game_BTN_Menu= findViewById(R.id.game_BTN_Menu)
-//        game_BTN_DeleteData= findViewById(R.id.game_BTN_DeleteData)
     }
 
     private fun initViews() {
-//        game_BTN_Menu.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        game_BTN_DeleteData.setOnClickListener {
-//            TaskDataManager.clearTasks()
-//        }
-
         val footerView = layoutInflater.inflate(R.layout.fragment_taskboard_bottom, null)
         main_FRAME_bottom.addView(footerView)
 
@@ -86,14 +75,16 @@ class TaskBoardActivity : AppCompatActivity() {
             finish()
         }
 
-
         taskUpperMenuFragmant = TaskUpperMenuFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("board", board)
+        taskUpperMenuFragmant.arguments = bundle
         supportFragmentManager
             .beginTransaction()
             .add(R.id.main_FRAME_task_board_menu, taskUpperMenuFragmant)
             .commit()
 
-//        taskFragment = TaskFragment()
+
         taskFragment = TaskFragment().apply {
             arguments = Bundle().apply {
                 putSerializable("board_users", ArrayList(board.users)) // 🔧 pass users

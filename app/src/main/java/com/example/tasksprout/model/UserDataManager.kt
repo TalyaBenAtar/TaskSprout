@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 object UserDataManager {
     var currentUser: User? = null
     private val firestore = FirebaseFirestore.getInstance()
@@ -53,17 +54,29 @@ object UserDataManager {
             }
     }
 
-    fun handleXPChange(event: String, boardId: String? = null) {
-        val xp = when (event) {
-            "CLAIM" -> 5
-            "TODO_TO_IN_PROGRESS" -> 10
-            "TO_DONE" -> 50
-            "TO_NEGLECTED" -> -30
-            "NEGLECTED_RECOVERED" -> 15
-            else -> 0
-        }
-        if (xp != 0) addXP(xp, boardId)
+    fun handleXPChange(event: String, boardId: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("boards")
+            .whereEqualTo("name", boardId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val board = snapshot.documents.firstOrNull()?.toObject(TaskBoard::class.java) ?: return@addOnSuccessListener
+
+                val xp = when (event) {
+                    "CLAIM" -> board.xpClaim
+                    "TODO_TO_IN_PROGRESS" -> board.xpTodoToInProgress
+                    "TO_DONE" -> board.xpToDone
+                    "TO_NEGLECTED" -> board.xpToNeglected
+                    "NEGLECTED_RECOVERED" -> board.xpNeglectedRecovered
+                    else -> 0
+                }
+
+                if (xp != 0) addXP(xp, boardId)
+            }
     }
+
+
 
     fun checkAndApplyXPChange(
         oldStatus: Task.Status,
