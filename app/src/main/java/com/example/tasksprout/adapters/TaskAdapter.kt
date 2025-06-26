@@ -64,7 +64,7 @@ class TaskAdapter(
                 binding.taskBTNClaim.setOnClickListener {
                     val claimedTask = task.copy(assignedTo = currentUserEmail)
 
-                    // ✅ Award XP for claiming the task
+                    // Award XP for claiming the task
                     val context = itemView.context
                     val boardName = if (context is AppCompatActivity) {
                         val board = context.intent.getSerializableExtra("board") as? TaskBoard

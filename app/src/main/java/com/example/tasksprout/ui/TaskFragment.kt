@@ -83,6 +83,10 @@ class TaskFragment : Fragment() {
 
             override fun onClaimTask(task: Task) {
                 val board = activity?.intent?.getSerializableExtra("board") as? TaskBoard ?: return
+
+                //maybe delete? idk
+                UserDataManager.handleXPChange("CLAIM","board")
+
                 TaskDataManager.updateTaskInFirestore(task, null, board){
                     loadTasksFromFirestore()
                 }

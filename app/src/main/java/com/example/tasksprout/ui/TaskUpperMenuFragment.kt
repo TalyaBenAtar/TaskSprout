@@ -151,7 +151,7 @@ fun showTaskDialog(taskToEdit: Task? = null) {
             .build()
 
 
-        val boardIntent = (activity?.intent?.getSerializableExtra("board") as? TaskBoard) ?: return@setOnClickListener
+        val boardIntent = getCurrentBoard() ?: return@setOnClickListener
         if (isEdit) {
             TaskDataManager.updateTaskInFirestore(task ,taskToEdit!!, boardIntent){
                 refreshTaskFragment()
@@ -247,7 +247,7 @@ fun showTaskDialog(taskToEdit: Task? = null) {
 //                        )
 //                        Toast.makeText(requireContext(), "XP checked", Toast.LENGTH_SHORT).show()
 //                    }
-                    val board = activity?.intent?.getSerializableExtra("board") as? TaskBoard ?: return@setOnDragListener true
+                    val board = getCurrentBoard()?: return@setOnDragListener true
                     TaskDataManager.updateTaskInFirestore(updatedTask,null, board){
                         refreshTaskFragment()
                     }

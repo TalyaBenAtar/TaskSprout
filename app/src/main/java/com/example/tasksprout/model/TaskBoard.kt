@@ -1,6 +1,5 @@
 package com.example.tasksprout.model
 import java.io.Serializable
-import com.example.tasksprout.model.BoardUser
 
 
 data class TaskBoard(
@@ -23,6 +22,12 @@ data class TaskBoard(
         private var description: String = ""
         private var releaseDate: String = ""
 
+        private var xpClaim: Int = 5
+        private var xpTodoToInProgress: Int = 10
+        private var xpToDone: Int = 50
+        private var xpToNeglected: Int = -30
+        private var xpNeglectedRecovered: Int = 15
+
 
         fun name(name: String) = apply { this.name = name }
         fun releaseDate(releaseDate: String) = apply { this.releaseDate = releaseDate }
@@ -41,7 +46,16 @@ data class TaskBoard(
 
         fun description(description: String) = apply { this.description = description }
 
-        fun build() = TaskBoard(name, users, tasks, description, releaseDate)
+        fun xpClaim(value: Int) = apply { this.xpClaim = value }
+        fun xpTodoToInProgress(value: Int) = apply { this.xpTodoToInProgress = value }
+        fun xpToDone(value: Int) = apply { this.xpToDone = value }
+        fun xpToNeglected(value: Int) = apply { this.xpToNeglected = value }
+        fun xpNeglectedRecovered(value: Int) = apply { this.xpNeglectedRecovered = value }
+
+        fun build() = TaskBoard(
+            name, users, tasks, description, releaseDate,
+            xpClaim, xpTodoToInProgress, xpToDone, xpToNeglected, xpNeglectedRecovered
+        )
 
     }
 }

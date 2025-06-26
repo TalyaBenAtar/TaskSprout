@@ -74,15 +74,15 @@ object UserDataManager {
 
                 if (xp != 0) addXP(xp, boardId)
             }
-    }
 
+    }
 
 
     fun checkAndApplyXPChange(
         oldStatus: Task.Status,
         newStatus: Task.Status,
         assignedTo: String?,
-        boardName: String
+        boardName: String,
     ) {
         if (assignedTo == null || assignedTo != FirebaseAuth.getInstance().currentUser?.email)
             return
@@ -113,7 +113,7 @@ object UserDataManager {
                 currentUser?.xp = currentUser?.xp?.plus(amount) ?: amount
             }
 
-        // Also update in the board if provided
+        // Update in the board if provided
         if (boardId != null) {
             db.collection("boards")
                 .whereEqualTo("name", boardId)
@@ -126,12 +126,18 @@ object UserDataManager {
                         if (it.email == email) it.copy(xp = it.xp + amount) else it
                     }
 
+
                     val updatedBoard = TaskBoard.Builder()
                         .name(board.name)
                         .description(board.description)
                         .users(updatedUsers)
                         .tasks(board.tasks)
                         .releaseDate(board.releaseDate)
+                        .xpClaim(board.xpClaim)
+                        .xpTodoToInProgress(board.xpTodoToInProgress)
+                        .xpToDone(board.xpToDone)
+                        .xpToNeglected(board.xpToNeglected)
+                        .xpNeglectedRecovered(board.xpNeglectedRecovered)
                         .build()
 
                     db.collection("boards").document(doc.id).set(updatedBoard)
@@ -189,6 +195,12 @@ object UserDataManager {
                                 .users(updatedUsers)
                                 .tasks(board.tasks)
                                 .releaseDate(board.releaseDate)
+                                .xpClaim(board.xpClaim)
+                                .xpTodoToInProgress(board.xpTodoToInProgress)
+                                .xpToDone(board.xpToDone)
+                                .xpToNeglected(board.xpToNeglected)
+                                .xpNeglectedRecovered(board.xpNeglectedRecovered)
+
                                 .build()
 
                             batch.set(doc.reference, updatedBoard)

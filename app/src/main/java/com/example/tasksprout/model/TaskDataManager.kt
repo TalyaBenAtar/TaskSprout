@@ -62,6 +62,11 @@ object TaskDataManager {
                     .users(fullBoard.users)
                     .tasks(updatedTasks)
                     .releaseDate(fullBoard.releaseDate)
+                    .xpClaim(fullBoard.xpClaim)
+                    .xpTodoToInProgress(fullBoard.xpTodoToInProgress)
+                    .xpToDone(fullBoard.xpToDone)
+                    .xpToNeglected(fullBoard.xpToNeglected)
+                    .xpNeglectedRecovered(fullBoard.xpNeglectedRecovered)
                     .build()
 
                 FirebaseFirestore.getInstance()
@@ -97,6 +102,12 @@ object TaskDataManager {
                     .description(boardDoc.description)
                     .users(boardDoc.users)
                     .tasks(updatedTasks)
+                    .releaseDate(boardDoc.releaseDate)
+                    .xpClaim(boardDoc.xpClaim)
+                    .xpTodoToInProgress(boardDoc.xpTodoToInProgress)
+                    .xpToDone(boardDoc.xpToDone)
+                    .xpToNeglected(boardDoc.xpToNeglected)
+                    .xpNeglectedRecovered(boardDoc.xpNeglectedRecovered)
                     .build()
 
                 FirebaseFirestore.getInstance()
@@ -125,6 +136,7 @@ object TaskDataManager {
                 val doc = snapshot.documents.firstOrNull()
                 val boardDoc = doc?.toObject(TaskBoard::class.java) ?: return@addOnSuccessListener
 
+
                 //  use oldTask if given, fallback to name+desc match
                 val matchTask = oldTask ?: boardDoc.tasks.find {
                     it.name == updatedTask.name && it.description == updatedTask.description
@@ -147,7 +159,7 @@ object TaskDataManager {
                     } else {
                         it.name == updatedTask.name && it.description == updatedTask.description
                     }
-
+//delete? later
                     if (isMatch) {
                         if (it.assignedTo == null && updatedTask.assignedTo != null) {
                             UserDataManager.handleXPChange("CLAIM", boardDoc.name)
@@ -156,11 +168,18 @@ object TaskDataManager {
                     } else it
                 }
 
+
                 val updatedBoard = TaskBoard.Builder()
                     .name(boardDoc.name)
                     .description(boardDoc.description)
                     .users(boardDoc.users)
                     .tasks(updatedTasks)
+                    .releaseDate(boardDoc.releaseDate)
+                    .xpClaim(boardDoc.xpClaim)
+                    .xpTodoToInProgress(boardDoc.xpTodoToInProgress)
+                    .xpToDone(boardDoc.xpToDone)
+                    .xpToNeglected(boardDoc.xpToNeglected)
+                    .xpNeglectedRecovered(boardDoc.xpNeglectedRecovered)
                     .build()
 
                 FirebaseFirestore.getInstance()
@@ -170,8 +189,8 @@ object TaskDataManager {
                     .addOnSuccessListener {
                         onSuccess()
                     }
+                }
             }
-    }
 
 
 }

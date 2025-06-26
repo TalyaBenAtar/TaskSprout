@@ -111,6 +111,12 @@ object TaskBoardDataManager {
             .users(board.users + newUser)
             .tasks(board.tasks)
             .releaseDate(board.releaseDate)
+            .xpClaim(board.xpClaim)
+            .xpTodoToInProgress(board.xpTodoToInProgress)
+            .xpToDone(board.xpToDone)
+            .xpToNeglected(board.xpToNeglected)
+            .xpNeglectedRecovered(board.xpNeglectedRecovered)
+
             .build()
     }
 
@@ -145,4 +151,44 @@ object TaskBoardDataManager {
                 SignalManager.getInstance().toast("Error accessing Firestore")
             }
     }
+
+    fun rebuildBoardWithLatestDataAndTasks(
+        boardName: String,
+        updatedTasks: List<Task>,
+        onComplete: (TaskBoard?) -> Unit
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("boards")
+            .whereEqualTo("name", boardName)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val doc = snapshot.documents.firstOrNull()
+                if (doc != null) {
+                    val board = doc.toObject(TaskBoard::class.java)
+                    if (board != null) {
+                        val rebuiltBoard = TaskBoard.Builder()
+                            .name(board.name)
+                            .description(board.description)
+                            .users(board.users)
+                            .tasks(updatedTasks)
+                            .releaseDate(board.releaseDate)
+                            .xpClaim(board.xpClaim)
+                            .xpTodoToInProgress(board.xpTodoToInProgress)
+                            .xpToDone(board.xpToDone)
+                            .xpToNeglected(board.xpToNeglected)
+                            .xpNeglectedRecovered(board.xpNeglectedRecovered)
+                            .build()
+                        onComplete(rebuiltBoard)
+                    } else {
+                        onComplete(null)
+                    }
+                } else {
+                    onComplete(null)
+                }
+            }
+            .addOnFailureListener {
+                onComplete(null)
+            }
+    }
+
 }
