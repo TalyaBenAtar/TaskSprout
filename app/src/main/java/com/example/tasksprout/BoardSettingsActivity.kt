@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.tasksprout.adapters.LeaderboardAdapter
 import com.example.tasksprout.databinding.ActivityBoardSettingsBinding
@@ -13,11 +14,11 @@ import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.tasksprout.model.Role
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tasksprout.model.TaskBoardDataManager
 import com.example.tasksprout.utilities.SignalManager
 import com.github.mikephil.charting.components.Legend
 
@@ -27,32 +28,49 @@ class BoardSettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardSettingsBinding
     private var currentBoard: TaskBoard? = null
     private var currentUserEmail: String? = null
+    private lateinit var docId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBoardSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.boardSettingBTNBack.setOnClickListener {
-            val intent = Intent(this, TaskBoardActivity::class.java)
-            intent.putExtra("board", currentBoard)
-            startActivity(intent)
-        }
-
-        binding.settingsRVLeaderboard.layoutManager = LinearLayoutManager(this)
-
-        currentBoard = intent.getSerializableExtra("board") as? TaskBoard
+        val boardFromIntent  = intent.getSerializableExtra("board") as? TaskBoard
+        val boardName = boardFromIntent ?.name ?: return
         currentUserEmail = FirebaseAuth.getInstance().currentUser?.email
 
-        if (currentBoard == null || currentUserEmail == null) {
-            SignalManager.getInstance().toast("Board or user info missing")
-            finish()
-            return
-        }
+        val db = FirebaseFirestore.getInstance()
+        db.collection("boards")
+            .whereEqualTo("name", boardName)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w("BoardSettings", "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+                val doc = snapshot?.documents?.firstOrNull()
+                val latestBoard = doc?.toObject(TaskBoard::class.java)
 
-        setupXPSettings()
-        setupLeaderboard()
-        setupCharts()
+                if (latestBoard == null || currentUserEmail == null) {
+                    SignalManager.getInstance().toast("Board or user info missing")
+                    finish()
+                    return@addSnapshotListener
+                }
+
+                currentBoard = latestBoard
+                docId = doc.id
+
+                binding.boardSettingBTNBack.setOnClickListener {
+                    val intent = Intent(this, TaskBoardActivity::class.java)
+                    intent.putExtra("board", currentBoard)
+                    startActivity(intent)
+                }
+
+                setupXPSettings()
+                setupLeaderboard()
+                setupCharts()
+
+                binding.settingsRVLeaderboard.layoutManager = LinearLayoutManager(this)
+            }
     }
 
 
@@ -66,33 +84,32 @@ class BoardSettingsActivity : AppCompatActivity() {
             binding.editTextToDone.setText(currentBoard?.xpToDone?.toString())
             binding.editTextToNeglected.setText(currentBoard?.xpToNeglected?.toString())
             binding.editTextNeglectedRecovered.setText(currentBoard?.xpNeglectedRecovered?.toString())
-
             binding.btnSaveXPSettings.setOnClickListener {
-                val updatedBoard = currentBoard?.copy(
-                    xpClaim = binding.editTextClaim.text.toString().toIntOrNull() ?: 5,
-                    xpTodoToInProgress = binding.editTextTodoToInProgress.text.toString().toIntOrNull() ?: 10,
-                    xpToDone = binding.editTextToDone.text.toString().toIntOrNull() ?: 50,
-                    xpToNeglected = binding.editTextToNeglected.text.toString().toIntOrNull() ?: -30,
-                    xpNeglectedRecovered = binding.editTextNeglectedRecovered.text.toString().toIntOrNull() ?: 15
-                )
+                    val updatedBoard = currentBoard?.copy(
+                        xpClaim = binding.editTextClaim.text.toString().toIntOrNull() ?: 5,
+                        xpTodoToInProgress = binding.editTextTodoToInProgress.text.toString().toIntOrNull() ?: 10,
+                        xpToDone = binding.editTextToDone.text.toString().toIntOrNull() ?: 50,
+                        xpToNeglected = binding.editTextToNeglected.text.toString().toIntOrNull() ?: -30,
+                        xpNeglectedRecovered = binding.editTextNeglectedRecovered.text.toString().toIntOrNull() ?: 15
+                    )
 
-                updatedBoard?.let { board ->
-                    FirebaseFirestore.getInstance()
-                        .collection("boards")
-                        .whereEqualTo("name", board.name)
-                        .get()
-                        .addOnSuccessListener { snapshot ->
-                            val doc = snapshot.documents.firstOrNull() ?: return@addOnSuccessListener
-                            FirebaseFirestore.getInstance()
-                                .collection("boards")
-                                .document(doc.id)
-                                .set(board)
-                                .addOnSuccessListener {
-                                    SignalManager.getInstance().toast("XP settings saved")
-                                    currentBoard = board
-                                }
-                        }
-                }
+                    updatedBoard?.let { board ->
+                        FirebaseFirestore.getInstance()
+                            .collection("boards")
+                            .whereEqualTo("name", board.name)
+                            .get()
+                            .addOnSuccessListener { snapshot ->
+                                val doc = snapshot.documents.firstOrNull() ?: return@addOnSuccessListener
+                                FirebaseFirestore.getInstance()
+                                    .collection("boards")
+                                    .document(doc.id)
+                                    .set(board)
+                                    .addOnSuccessListener {
+                                        SignalManager.getInstance().toast("XP settings saved")
+                                        currentBoard = board
+                                    }
+                            }
+                    }
             }
         }
     }
@@ -141,9 +158,6 @@ class BoardSettingsActivity : AppCompatActivity() {
         )
         entries.colors = customColors
         entries.valueTextColor = Color.BLACK
-//        entries.value
-
-//        entries.colors = ColorTemplate.MATERIAL_COLORS.toList()
 
         val data = PieData(entries)
         pieChart.data = data
@@ -152,8 +166,7 @@ class BoardSettingsActivity : AppCompatActivity() {
         pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
         pieChart.legend.setDrawInside(false)
-//        pieChart.setExtraTopOffset(20f)
-        pieChart.legend.textColor = Color.BLACK // optional for better visibility
+        pieChart.legend.textColor = Color.BLACK
         pieChart.legend.apply {
             verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
@@ -166,7 +179,6 @@ class BoardSettingsActivity : AppCompatActivity() {
             xEntrySpace = 10f
             yEntrySpace = 8f
         }
-
         pieChart.invalidate()
     }
 

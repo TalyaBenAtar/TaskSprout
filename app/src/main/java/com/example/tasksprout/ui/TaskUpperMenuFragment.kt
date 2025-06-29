@@ -150,7 +150,6 @@ fun showTaskDialog(taskToEdit: Task? = null) {
             .assignedTo(taskToEdit?.assignedTo)
             .build()
 
-
         val boardIntent = getCurrentBoard() ?: return@setOnClickListener
         if (isEdit) {
             TaskDataManager.updateTaskInFirestore(task ,taskToEdit!!, boardIntent){
@@ -236,17 +235,6 @@ fun showTaskDialog(taskToEdit: Task? = null) {
 
                     val updatedTask = task.copy(status = newStatus)
 
-                    // 🔧 Apply XP change logic before updating Firestore
-//                    val board = activity?.intent?.getSerializableExtra("board") as? TaskBoard
-//                    if (board != null) {
-//                        UserDataManager.checkAndApplyXPChange(
-//                            oldStatus = task.status,
-//                            newStatus = newStatus,
-//                            assignedTo = task.assignedTo,
-//                            boardName = board.name
-//                        )
-//                        Toast.makeText(requireContext(), "XP checked", Toast.LENGTH_SHORT).show()
-//                    }
                     val board = getCurrentBoard()?: return@setOnDragListener true
                     TaskDataManager.updateTaskInFirestore(updatedTask,null, board){
                         refreshTaskFragment()

@@ -191,4 +191,20 @@ object TaskBoardDataManager {
             }
     }
 
+    fun getLatestBoardByName(boardName: String, onComplete: (TaskBoard?) -> Unit) {
+        FirebaseFirestore.getInstance()
+            .collection("boards")
+            .whereEqualTo("name", boardName)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val doc = snapshot.documents.firstOrNull()
+                val board = doc?.toObject(TaskBoard::class.java)
+                onComplete(board)
+            }
+            .addOnFailureListener {
+                onComplete(null)
+            }
+    }
+
+
 }
