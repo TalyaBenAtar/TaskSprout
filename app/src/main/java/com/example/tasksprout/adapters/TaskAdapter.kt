@@ -20,6 +20,7 @@ import com.example.tasksprout.model.BoardUser
 import com.example.tasksprout.model.TaskBoard
 import com.example.tasksprout.model.TaskDataManager
 import com.example.tasksprout.model.UserDataManager
+import com.example.tasksprout.utilities.SignalManager
 
 
 class TaskAdapter(
@@ -72,7 +73,7 @@ class TaskAdapter(
                     } else null
 
                     if (boardName != null) {
-                        UserDataManager.handleXPChange("CLAIM", boardName)
+                        UserDataManager.handleXPChange("CLAIM", boardName, context)
                     }
 
                     taskInteractionHandler?.onClaimTask(claimedTask)

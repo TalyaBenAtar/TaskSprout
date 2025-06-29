@@ -2,8 +2,12 @@ package com.example.tasksprout.model
 
 import android.content.Context
 import android.util.Log
+import com.example.tasksprout.utilities.SignalManager
+import com.example.tasksprout.utilities.SingleSoundPlayer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.tasksprout.R
+
 
 
 object UserDataManager {
@@ -54,7 +58,8 @@ object UserDataManager {
             }
     }
 
-    fun handleXPChange(event: String, boardId: String) {
+    fun handleXPChange(event: String, boardId: String, context: Context) {
+        var ssp = SingleSoundPlayer(context)
         val db = FirebaseFirestore.getInstance()
 
         db.collection("boards")
@@ -72,7 +77,14 @@ object UserDataManager {
                     else -> 0
                 }
 
-                if (xp != 0) addXP(xp, boardId)
+                SignalManager.getInstance().vibrate()
+                if (xp <0){
+                    ssp.playSound(R.raw.lose_xp)
+                } else if (xp > 0){
+                    ssp.playSound(R.raw.gain_xp)
+                }
+
+                if (xp!=0) addXP(xp, boardId)
             }
 
     }
@@ -83,6 +95,7 @@ object UserDataManager {
         newStatus: Task.Status,
         assignedTo: String?,
         boardName: String,
+        context: Context
     ) {
         if (assignedTo == null || assignedTo != FirebaseAuth.getInstance().currentUser?.email)
             return
@@ -97,7 +110,7 @@ object UserDataManager {
         }
 
         transition?.let {
-            handleXPChange(it, boardName)
+            handleXPChange(it, boardName, context)
         }
     }
 

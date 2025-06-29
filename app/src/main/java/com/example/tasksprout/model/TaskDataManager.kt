@@ -17,13 +17,16 @@ object TaskDataManager {
     private lateinit var sharedPreferences: SharedPreferences
     private const val KEY_OPENED_TASKS = "opened_tasks"
     val tasks = mutableListOf<Task>()
+    private lateinit var appContext: Context
+
 
 //    private const val KEY_TASKS = "tasks"
 //    private val gson = Gson()
 
 
     fun init(context: Context) {
-        sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        appContext = context.applicationContext
+        sharedPreferences = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 //        loadTasks()
     }
 
@@ -148,9 +151,10 @@ object TaskDataManager {
                         oldStatus = matchTask.status,
                         newStatus = updatedTask.status,
                         assignedTo = updatedTask.assignedTo,
-                        boardName = board.name
+                        boardName = board.name,
+                        appContext
                     )
-                    SignalManager.getInstance().toast("XP checked")
+                    SignalManager.getInstance().toast("XP updated!")
                 }
 
                 val updatedTasks = boardDoc.tasks.map {
@@ -162,7 +166,7 @@ object TaskDataManager {
 //delete? later
                     if (isMatch) {
                         if (it.assignedTo == null && updatedTask.assignedTo != null) {
-                            UserDataManager.handleXPChange("CLAIM", boardDoc.name)
+                            UserDataManager.handleXPChange("CLAIM", boardDoc.name, appContext)
                         }
                         updatedTask
                     } else it

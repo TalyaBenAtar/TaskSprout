@@ -85,7 +85,7 @@ class TaskFragment : Fragment() {
                 val board = activity?.intent?.getSerializableExtra("board") as? TaskBoard ?: return
 
                 //maybe delete? idk
-                UserDataManager.handleXPChange("CLAIM","board")
+                UserDataManager.handleXPChange("CLAIM","board", requireContext())
 
                 TaskDataManager.updateTaskInFirestore(task, null, board){
                     loadTasksFromFirestore()

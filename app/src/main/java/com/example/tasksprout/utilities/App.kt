@@ -1,7 +1,6 @@
 package com.example.tasksprout.utilities
 
 import android.app.Application
-//import com.example.tasksprout.KotlinCoroutinesActivity
 
 class App : Application() {
     override fun onCreate() {
