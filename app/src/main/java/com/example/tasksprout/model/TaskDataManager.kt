@@ -2,6 +2,7 @@ package com.example.tasksprout.model
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.tasksprout.R
 import com.example.tasksprout.ui.TaskFragment
@@ -36,7 +37,9 @@ object TaskDataManager {
     }
 
     fun markTaskAsOpened(name: String) {
-        val opened = sharedPreferences.getStringSet(KEY_OPENED_TASKS, mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+        val opened =
+            sharedPreferences.getStringSet(KEY_OPENED_TASKS, mutableSetOf())?.toMutableSet()
+                ?: mutableSetOf()
         opened.add(name)
         sharedPreferences.edit().putStringSet(KEY_OPENED_TASKS, opened).apply()
     }
@@ -46,7 +49,7 @@ object TaskDataManager {
         return name in opened
     }
 
-     fun addTaskToBoard(task: Task, boardIntent: TaskBoard, onSuccess: () -> Unit) {
+    fun addTaskToBoard(task: Task, boardIntent: TaskBoard, onSuccess: () -> Unit) {
         FirebaseFirestore.getInstance()
             .collection("boards")
             .whereEqualTo("name", boardIntent.name)
@@ -125,12 +128,15 @@ object TaskDataManager {
     }
 
 
+
     fun updateTaskInFirestore(
         updatedTask: Task,
         oldTask: Task? = null,
         board: TaskBoard,
         onSuccess: () -> Unit
     ) {
+
+
         FirebaseFirestore.getInstance()
             .collection("boards")
             .whereEqualTo("name", board.name)
@@ -193,8 +199,8 @@ object TaskDataManager {
                     .addOnSuccessListener {
                         onSuccess()
                     }
-                }
             }
+    }
 
 
 }

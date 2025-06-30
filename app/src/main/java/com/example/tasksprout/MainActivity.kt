@@ -2,6 +2,7 @@ package com.example.tasksprout
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
@@ -20,9 +21,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.example.tasksprout.model.TaskBoardDataManager
+import com.example.tasksprout.model.User
+import com.example.tasksprout.model.UserDataManager
 import com.example.tasksprout.ui.BoardFragment
 import com.example.tasksprout.utilities.SignalManager
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         TaskBoardDataManager.init(applicationContext)
+        initCurrentUser()
         initViews()
     }
 
@@ -63,6 +69,23 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_FRAME_boardList, BoardFragment())
             .commit()
     }
+    private fun initCurrentUser(){
+        FirebaseAuth.getInstance().currentUser?.email?.let { email ->
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(email)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val user = doc.toObject(User::class.java)
+                    if (user != null) {
+                        UserDataManager.currentUser = user
+                        Log.d("XP_DEBUG", "currentUser initialized in MainActivity: ${user.email}")
+                    }
+                }
+        }
+
+    }
+
 
     private fun getMessageFromDB(textView: android.widget.TextView) {
         val ref = getDatabaseReference("messages")

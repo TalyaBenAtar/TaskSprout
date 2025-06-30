@@ -72,10 +72,6 @@ class TaskAdapter(
                         board?.name
                     } else null
 
-                    if (boardName != null) {
-                        UserDataManager.handleXPChange("CLAIM", boardName, context)
-                    }
-
                     taskInteractionHandler?.onClaimTask(claimedTask)
                 }
             } else {

@@ -61,12 +61,14 @@ object UserDataManager {
     fun handleXPChange(event: String, boardId: String, context: Context) {
         var ssp = SingleSoundPlayer(context)
         val db = FirebaseFirestore.getInstance()
+        Log.d("XP_DEBUG", "handleXPChange CALLED with event=$event boardId=$boardId")
 
         db.collection("boards")
             .whereEqualTo("name", boardId)
             .get()
             .addOnSuccessListener { snapshot ->
-                val board = snapshot.documents.firstOrNull()?.toObject(TaskBoard::class.java) ?: return@addOnSuccessListener
+                val board = snapshot.documents.firstOrNull()?.toObject(TaskBoard::class.java)
+                    ?: return@addOnSuccessListener
 
                 val xp = when (event) {
                     "CLAIM" -> board.xpClaim
@@ -76,17 +78,17 @@ object UserDataManager {
                     "NEGLECTED_RECOVERED" -> board.xpNeglectedRecovered
                     else -> 0
                 }
+                Log.d("XP_DEBUG", "XP resolved to $xp for event=$event")
 
                 SignalManager.getInstance().vibrate()
-                if (xp <0){
+                if (xp < 0) {
                     ssp.playSound(R.raw.lose_xp)
-                } else if (xp > 0){
+                } else if (xp > 0) {
                     ssp.playSound(R.raw.gain_xp)
                 }
 
-                if (xp!=0) addXP(xp, boardId)
+                if (xp != 0) addXP(xp, boardId)
             }
-
     }
 
 
