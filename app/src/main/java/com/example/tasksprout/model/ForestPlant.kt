@@ -8,18 +8,9 @@ data class ForestPlant(
     @DocumentId var id: String = "",
     val boardName: String = "",
     val taskName: String = "",
-    val status: Status = Status.TODO,
-    val posX: Float = 0f,
-    val posY: Float = 0f
+    var status: Status = Status.TODO,
+    var posX: Float = 0f,
+    var posY: Float = 0f
 ) : Serializable
 
 
-//fun getDrawableForStatus(status: String): Int {
-//    return when (status) {
-//        "TO DO" -> R.drawable.plant_seed
-//        "IN_PROGRESS" -> R.drawable.watering_plants
-//        "DONE" -> R.drawable.plant_done
-//        "NEGLECTED" -> R.drawable.plant_dead
-//        else -> R.drawable.plant_seed
-//    }
-//}

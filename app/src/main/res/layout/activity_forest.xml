@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DAF5D8">
+
+    <TextView
+        android:id="@+id/forest_debug_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Forest"
+        android:textColor="@color/teal_dark"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-medium"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:elevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/forest_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:elevation="50dp"
+        android:backgroundTint="@color/teal_light"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="4dp"/>
+
+    <!-- Forest plant container with red border -->
+    <FrameLayout
+        android:id="@+id/forest_bounds_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/debug_border"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Dev-only reset button -->
+    <Button
+        android:id="@+id/forestBTNResetPositions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset positions🌱"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:visibility="gone"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="50dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

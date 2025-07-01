@@ -88,6 +88,12 @@ class ProfileActivity : AppCompatActivity() {
                 }
         }
 
+        //Forest page
+        binding.profileBTNForest.setOnClickListener {
+            startActivity(Intent(this, ForestActivity::class.java))
+            finish()
+        }
+
         // Back to MainActivity
         binding.profileBTNBack.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
