@@ -1,23 +1,33 @@
 package com.example.tasksprout
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tasksprout.databinding.ActivityForestBinding
 import com.example.tasksprout.model.ForestPlant
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
 import com.example.tasksprout.utilities.SignalManager
-import com.google.android.gms.tasks.Tasks
+import com.example.tasksprout.utilities.SingleSoundPlayer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ForestActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var binding: ActivityForestBinding
+    private var activeBubble: View? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +42,16 @@ class ForestActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
-        Log.d("FOREST_DEBUG", "Binding initialized: ${binding.forestBoundsFrame}")
-
         generateForestIfNeeded()
     }
 
+
     private fun generateForestIfNeeded() {
+        var ssp = SingleSoundPlayer(this)
+        var plantStatusUpdated =0;
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val forestRef = db.collection("users").document(userEmail).collection("forestPlants")
         val boardRef = db.collection("boards")
-
         Log.d("FOREST_DEBUG", "Fetching forest for user: $userEmail")
 
         val existingPlants = mutableListOf<ForestPlant>()
@@ -49,10 +59,10 @@ class ForestActivity : AppCompatActivity() {
 
         forestRef.get().addOnSuccessListener { forestSnapshot ->
             existingPlants.addAll(forestSnapshot.toObjects(ForestPlant::class.java))
+            val initialSize = existingPlants.size
+            val plantMap = existingPlants.associateBy { "${it.boardName}::${it.taskName}" }.toMutableMap()
 
             boardRef.get().addOnSuccessListener { boardSnapshots ->
-                val taskRequests = mutableListOf<com.google.android.gms.tasks.Task<*>>()
-
                 for (boardDoc in boardSnapshots) {
                     val board = boardDoc.toObject(TaskBoard::class.java)
                     val boardName = board.name ?: continue
@@ -72,45 +82,55 @@ class ForestActivity : AppCompatActivity() {
                         val taskKey = "$boardName::$taskName"
                         validTaskKeys.add(taskKey)
 
-                        val alreadyExists = existingPlants.any {
-                            it.boardName == boardName && it.taskName == taskName
-                        }
+                        val existing = plantMap[taskKey]
 
-                        if (alreadyExists) {
-                            Log.d("FOREST_DEBUG", "🌿 Already exists: $taskName on $boardName")
-                            continue
-                        }
-
-                        val screenWidth = resources.displayMetrics.widthPixels
-                        val screenHeight = resources.displayMetrics.heightPixels
-                        val newPos = generateUniquePosition(existingPlants)
-
-                        if (newPos != null) {
-                            val newPlant = ForestPlant(
-                                boardName = boardName,
-                                taskName = taskName,
-                                status = status,
-                                posX = newPos.first,
-                                posY = newPos.second
-                            )
-                            Log.d("FOREST_DEBUG", "🌱 Creating plant: $taskName on board $boardName with status $status at $newPos")
-
-                            forestRef.add(newPlant)
-                                .addOnSuccessListener {
-                                    Log.d("FOREST_DEBUG", "✅ Successfully added forest plant $taskName")
-                                }
-                                .addOnFailureListener {
-                                    Log.e("FOREST_DEBUG", "❌ Failed to add forest plant $taskName", it)
-                                }
-
-                            existingPlants.add(newPlant)
+                        if (existing != null) {
+                            if (existing.status != status) {
+                                forestRef
+                                    .whereEqualTo("boardName", boardName)
+                                    .whereEqualTo("taskName", taskName)
+                                    .get()
+                                    .addOnSuccessListener { docs ->
+                                        for (doc in docs) {
+                                            doc.reference.update("status", status)
+                                            Log.d("FOREST_DEBUG", "🌿 Updated plant status: $taskName in $boardName to $status")
+                                            reloadForestUI()
+                                            SignalManager.getInstance().toast("A plant's status was updated!🌿")
+                                            plantStatusUpdated=1;
+                                        }
+                                    }
+                                existing.status = status // update locally
+                            } else {
+                                Log.d("FOREST_DEBUG", "🌿 Already exists: $taskName on $boardName")
+                            }
                         } else {
-                            Log.w("FOREST_DEBUG", "⚠️ Could not place plant: $taskName, no room")
+                            val newPos = generateUniquePosition(existingPlants)
+
+                            if (newPos != null) {
+                                val newPlant = ForestPlant(
+                                    boardName = boardName,
+                                    taskName = taskName,
+                                    status = status,
+                                    posX = newPos.first,
+                                    posY = newPos.second
+                                )
+                                Log.d("FOREST_DEBUG", "🌱 Creating plant: $taskName on board $boardName with status $status at $newPos")
+
+                                forestRef.add(newPlant)
+                                    .addOnSuccessListener {
+                                        Log.d("FOREST_DEBUG", "✅ Successfully added forest plant $taskName")
+                                    }
+                                    .addOnFailureListener {
+                                        Log.e("FOREST_DEBUG", "❌ Failed to add forest plant $taskName", it)
+                                    }
+                                existingPlants.add(newPlant)
+                            } else {
+                                Log.w("FOREST_DEBUG", "⚠️ Could not place plant: $taskName, no room")
+                            }
                         }
                     }
                 }
 
-                // Remove orphaned plants
                 for (plant in existingPlants) {
                     val plantKey = "${plant.boardName}::${plant.taskName}"
                     if (plantKey !in validTaskKeys) {
@@ -119,33 +139,50 @@ class ForestActivity : AppCompatActivity() {
                             .whereEqualTo("taskName", plant.taskName)
                             .get()
                             .addOnSuccessListener { docs ->
-                                for (doc in docs) doc.reference.delete()
+                                for (doc in docs) {
+                                    doc.reference.delete()
+                                    Log.d("FOREST_DEBUG", "🗑️ Deleted orphaned plant ${plant.taskName} from ${plant.boardName}")
+                                    reloadForestUI()
+                                    SignalManager.getInstance().toast("A plant was deleted🗑️")
+                                }
                             }
                     }
                 }
+                forestRef.get().addOnSuccessListener { updatedSnapshot ->
+                    val updatedSize = updatedSnapshot.size()
 
-                loadAndDisplayForest()
+                    val newCount = updatedSize - initialSize
+                    if (newCount > 0) {
+                        ssp.playSound(R.raw.plant_grew)
+                        if (newCount == 1)
+                            SignalManager.getInstance().toast("🌱 A new plant sprouted!")
+                        else
+                            SignalManager.getInstance().toast("🌱 $newCount new plants sprouted in your forest!")
+                    }
+                    if (plantStatusUpdated!=0) ssp.playSound(R.raw.plant_grew)
+
+                    loadAndDisplayForest()
+                }
             }
         }
+    }
+
+    private fun reloadForestUI() {
+        binding.forestBoundsFrame.removeAllViews()
+        loadAndDisplayForest()
     }
 
     private fun loadAndDisplayForest() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val forestRef = db.collection("users").document(userEmail).collection("forestPlants")
 
-
-
         forestRef.get().addOnSuccessListener { snapshot ->
-            Log.d("FOREST_DEBUG", "Loading and displaying forest")
             val plants = snapshot.toObjects(ForestPlant::class.java)
-            Log.d("FOREST_DEBUG", "Found ${plants.size} plants in Firestore")
 
             for (plant in plants) {
                 addPlantToView(plant)
             }
-        }.addOnFailureListener {
-        Log.e("FOREST_DEBUG", "Failed to load forest plants", it)
-    }
+        }
     }
 
     private fun getDrawableForStatus(status: Task.Status): Int {
@@ -166,19 +203,94 @@ class ForestActivity : AppCompatActivity() {
         imageView.layoutParams = layoutParams
         try {
             imageView.setImageResource(getDrawableForStatus(plant.status))
-            Log.d(
-                "FOREST_DEBUG",
-                "Drawing plant: ${plant.taskName} at (${plant.posX}, ${plant.posY}) with status ${plant.status}"
-            )
+            Log.d("FOREST_DEBUG", "Drawing plant: ${plant.taskName} at (${plant.posX}, ${plant.posY}) with status ${plant.status}")
         }catch (e: Exception) {
             Log.e("FOREST_DEBUG", "Failed to set image for plant status: ${plant.status}", e)
         }
         imageView.setOnClickListener {
-            val message = "🌱 ${plant.taskName}\n📋 ${plant.boardName}\n📌 ${plant.status}"
-            SignalManager.getInstance().toast(message)
+            activeBubble?.let { binding.forestBoundsFrame.removeView(it) }
+
+            // Create and show new bubble
+            val bubble = createInfoBubble(this, plant)
+            activeBubble = bubble
+
+            // Position it above the plant
+            val layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+            val bubbleWidth = 600 // match the maxWidth you set
+            layoutParams.leftMargin = (plant.posX - bubbleWidth / 2).toInt().coerceAtLeast(0)
+            layoutParams.topMargin = (plant.posY - 140).toInt() // Adjust to float above the plant
+            bubble.layoutParams = layoutParams
+
+            binding.forestBoundsFrame.addView(bubble)
+        }
+        binding.forestBoundsFrame.addView(imageView)
+    }
+
+    private fun createInfoBubble(context: Context, plant: ForestPlant): View {
+        val container = LinearLayout(context)
+        container.orientation = LinearLayout.VERTICAL
+        container.setPadding(0, 0, 0, 0)
+        container.alpha = 0f // start transparent
+
+        val bubble = TextView(context)
+        bubble.setPadding(24, 16, 24, 16)
+        bubble.setBackgroundResource(R.drawable.bubble_background)
+        bubble.setTextColor(Color.BLACK)
+        bubble.text = "🌱 ${plant.taskName}\n📋 ${plant.boardName}\n📌 ${plant.status}"
+
+        bubble.maxWidth = 800
+        bubble.minWidth = 500
+        bubble.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            setMargins(0, 0, 0, 0)
         }
 
-        binding.forestBoundsFrame.addView(imageView)
+        val tail = ImageView(context)
+        tail.setImageResource(R.drawable.bubble_tail)
+        tail.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.START
+            setMargins(48, -6, 0, 0)
+        }
+
+        container.addView(bubble)
+        container.addView(tail)
+
+        container.setOnClickListener {
+            binding.forestBoundsFrame.removeView(container)
+            activeBubble = null
+        }
+
+        // Animate fade-in
+        container.alpha = 0f
+        container.translationY = 30f
+
+        container.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(400)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
+
+        container.setOnClickListener {
+            container.animate()
+                .alpha(0f)
+                .translationY(30f)
+                .setDuration(300)
+                .withEndAction {
+                    binding.forestBoundsFrame.removeView(container)
+                    activeBubble = null
+                }
+                .start()
+        }
+        return container
     }
 
     private fun generateUniquePosition(
@@ -205,73 +317,17 @@ class ForestActivity : AppCompatActivity() {
                 val dy = it.posY - y
                 Math.sqrt((dx * dx + dy * dy).toDouble()) < minDistance
             }
-
             if (!tooClose) return x to y
         }
-
         Log.w("FOREST_DEBUG", "⚠️ No unique position found for task")
         return null
     }
 
 
-//    fun generateUniquePosition(
-//        existingPlants: List<ForestPlant>,
-//        screenWidth: Int,
-//        screenHeight: Int,
-//        minDistance: Int = 150,
-//        maxTries: Int = 100
-//    ): Pair<Float, Float>? {
-//        val margin = 130 // safety margin based on plant size
-//
-//        repeat(maxTries) {
-//            val x = (margin..(screenWidth - margin)).random().toFloat()
-//            val y = (margin..(screenHeight - margin)).random().toFloat()
-//
-//            val tooClose = existingPlants.any {
-//                val dx = it.posX - x
-//                val dy = it.posY - y
-//                Math.sqrt((dx * dx + dy * dy).toDouble()) < minDistance
-//            }
-//
-//            if (!tooClose) return x to y
-//        }
-//
-//        Log.w("FOREST_DEBUG", "⚠️ No unique position found for task")
-//        return null
-//    }
-
-
-//    fun generateUniquePosition(
-//        existingPlants: List<ForestPlant>,
-//        screenWidth: Int,
-//        screenHeight: Int,
-//        minDistance: Int = 150,
-//        maxTries: Int = 100
-//    ): Pair<Float, Float>? {
-//        repeat(maxTries) {
-//            val x = (50..(screenWidth - 100)).random().toFloat()
-//            val y = (100..(screenHeight - 200)).random().toFloat()
-//
-//            val tooClose = existingPlants.any {
-//                val dx = it.posX - x
-//                val dy = it.posY - y
-//                Math.sqrt((dx * dx + dy * dy).toDouble()) < minDistance
-//            }
-//
-//            if (!tooClose) return x to y
-//        }
-//        Log.w("FOREST_DEBUG", "⚠️ No unique position found for task:")
-//
-//        return null
-//    }
-
-    //dev only function to delete positions of plants
+    //dev only function to delete positions of plants, can only be used when button is visible in app
     private fun resetPlantPositions() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val forestRef = db.collection("users").document(userEmail).collection("forestPlants")
-
-        val screenWidth = resources.displayMetrics.widthPixels
-        val screenHeight = resources.displayMetrics.heightPixels
 
         forestRef.get().addOnSuccessListener { snapshot ->
             val existing = snapshot.toObjects(ForestPlant::class.java).toMutableList()
@@ -288,7 +344,6 @@ class ForestActivity : AppCompatActivity() {
                 }
             }
 
-            // Optional: immediately reload forest
             binding.forestBoundsFrame.removeAllViews()
             loadAndDisplayForest()
         }.addOnFailureListener {
