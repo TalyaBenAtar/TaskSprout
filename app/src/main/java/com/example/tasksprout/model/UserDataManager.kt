@@ -1,13 +1,16 @@
 package com.example.tasksprout.model
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.view.ViewGroup
+import com.example.tasksprout.CurrentActivityProvider
 import com.example.tasksprout.utilities.SignalManager
 import com.example.tasksprout.utilities.SingleSoundPlayer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.tasksprout.R
-
+import com.google.firebase.firestore.FieldValue
 
 
 object UserDataManager {
@@ -16,7 +19,8 @@ object UserDataManager {
     private const val USERS_COLLECTION = "users"
 
 
-     // Initializes the currentUser by loading from Firestore or creating a new user doc if it doesn't exist.
+
+    // Initializes the currentUser by loading from Firestore or creating a new user doc if it doesn't exist.
     fun init(context: Context, onComplete: (Boolean) -> Unit) {
         val email = FirebaseAuth.getInstance().currentUser?.email
         if (email == null) {
@@ -87,8 +91,24 @@ object UserDataManager {
                     ssp.playSound(R.raw.gain_xp)
                 }
 
-                if (xp != 0) addXP(xp, boardId)
+
+                if (xp != 0) {
+                    val achievementIds = achievementEventTranslation(event)
+                    achievementIds.forEach { achievementId ->
+                        addXP(xp, boardId, achievementId)
+                    }
+                }
             }
+    }
+
+    //helper for achievement tracking
+    fun achievementEventTranslation(event: String): List<String> {
+        return when (event) {
+            "CLAIM" -> listOf("first_task_claimed")
+            "TO_DONE" -> listOf("first_task_done", "done_10_tasks")
+            "TO_NEGLECTED" -> listOf("oopsie_neglect_5")
+            else -> emptyList()
+        }
     }
 
 
@@ -116,17 +136,25 @@ object UserDataManager {
         }
     }
 
-    fun addXP(amount: Int, boardId: String? = null) {
+    fun addXP(amount: Int, boardId: String? = null, achievement: String? =null) {
         val user = currentUser ?: return
         val email = user.email
         val db = FirebaseFirestore.getInstance()
+        val activity = CurrentActivityProvider.getActivity()
+        val rootLayout = activity?.findViewById<ViewGroup>(android.R.id.content)
+
 
         // Update global user XP
         val userRef = db.collection("users").document(email)
-        userRef.update("xp", user.xp + amount)
+//        userRef.update("xp", user.xp + amount)
+//            .addOnSuccessListener {
+//                currentUser?.xp = currentUser?.xp?.plus(amount) ?: amount
+//            }
+        userRef.update("xp", FieldValue.increment(amount.toLong()))
             .addOnSuccessListener {
-                currentUser?.xp = currentUser?.xp?.plus(amount) ?: amount
+                currentUser?.xp = (currentUser?.xp ?: 0) + amount
             }
+
 
         // Update in the board if provided
         if (boardId != null) {
@@ -158,6 +186,13 @@ object UserDataManager {
                     db.collection("boards").document(doc.id).set(updatedBoard)
                 }
         }
+
+        if (achievement != null && activity != null && rootLayout != null) {
+            AchievementManager.incrementAchievementProgress(email, achievement) {
+                AchievementManager.showAchievementPopup(activity, rootLayout, it)
+            }
+        }
+
     }
 
 
@@ -215,6 +250,7 @@ object UserDataManager {
                                 .xpToDone(board.xpToDone)
                                 .xpToNeglected(board.xpToNeglected)
                                 .xpNeglectedRecovered(board.xpNeglectedRecovered)
+
 
                                 .build()
 

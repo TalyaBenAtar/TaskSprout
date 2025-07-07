@@ -86,4 +86,8 @@ dependencies {
     //charts
     implementation (libs.mpandroidchart)
 
+    //confetti for achievement popup
+    implementation(libs.konfetti.xml)
+    implementation(libs.konfetti.core)
+
 }

@@ -94,6 +94,11 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
+        //Achievement page
+        binding.profileBTNAchievements.setOnClickListener {
+            startActivity(Intent(this, AchievementsActivity::class.java))
+        }
+
         // Back to MainActivity
         binding.profileBTNBack.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))

@@ -19,5 +19,7 @@
         <item>Done</item>
         <item>Neglected</item>
     </string-array>
+    <string name="achievement_icon">Achievement Icon</string>
+
 
 </resources>

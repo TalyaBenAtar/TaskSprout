@@ -28,6 +28,9 @@
     <color name="soft_green">#81C381</color>
     <color name="soft_gold">#FFD700</color>
     <color name="soft_salmon">#FFA07A</color>
+    <color name="achievement_locked">#EEEEEE</color>
+    <color name="achievement_unlocked">#DFFFD9</color>
+
 
 
 </resources>

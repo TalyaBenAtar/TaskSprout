@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tasksprout.databinding.ActivityMainBinding
+import com.example.tasksprout.model.AchievementManager
 import com.example.tasksprout.model.TaskBoard
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        AchievementManager.trackDailyUsageAndUpdateProgress()
+        AchievementManager.createDefaultAchievementsInFirestore()
         TaskBoardDataManager.init(applicationContext)
         initCurrentUser()
         initViews()

@@ -1,5 +1,6 @@
 package com.example.tasksprout.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tasksprout.databinding.BoardItemBinding
 import com.example.tasksprout.interfaces.Callback_BoardClicked
+import com.example.tasksprout.model.AchievementManager
 import com.example.tasksprout.model.TaskBoard
 import com.example.tasksprout.model.TaskBoardDataManager
+import com.example.tasksprout.model.UserDataManager.currentUser
 
 
 class BoardAdapter(
@@ -17,7 +20,6 @@ class BoardAdapter(
 ) : RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
 
     var boardCallback: Callback_BoardClicked? = null
-//    val memberCountTextView: TextView = itemView.findViewById(R.id.board_item_member_count)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
@@ -38,10 +40,17 @@ class BoardAdapter(
 
         fun bind(board: TaskBoard) {
             val context = itemView.context
+            val rootLayout = (context as Activity).findViewById<ViewGroup>(android.R.id.content)
+
             if (TaskBoardDataManager.hasBoardBeenOpened(board.name)) {
                 binding.boardLBLNewBubble.visibility = View.INVISIBLE
             } else {
                 binding.boardLBLNewBubble.visibility = View.VISIBLE
+                val user= currentUser ?: return
+                AchievementManager.incrementAchievementProgress(user.email, "joined_board") {
+                    AchievementManager.showAchievementPopup(context, rootLayout, it)
+                }
+
             }
 
             binding.boardLBLAddedDate.text = board.releaseDate
