@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.tasksprout.CurrentActivityProvider
 import com.example.tasksprout.utilities.SignalManager
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.core.content.edit
 
 
 object TaskBoardDataManager {
@@ -37,7 +38,7 @@ object TaskBoardDataManager {
     fun markBoardAsOpened(name: String) {
         val opened = sharedPreferences.getStringSet(KEY_OPENED_BOARDS, mutableSetOf())?.toMutableSet() ?: mutableSetOf()
         opened.add(name)
-        sharedPreferences.edit().putStringSet(KEY_OPENED_BOARDS, opened).apply()
+        sharedPreferences.edit { putStringSet(KEY_OPENED_BOARDS, opened) }
     }
 
     fun hasBoardBeenOpened(name: String): Boolean {
