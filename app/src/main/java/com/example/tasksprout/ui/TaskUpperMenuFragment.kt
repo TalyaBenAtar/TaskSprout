@@ -18,17 +18,10 @@ import com.example.tasksprout.databinding.FragmentTaskUpperMenuBinding
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.firestore.FirebaseFirestore
 import android.content.res.ColorStateList
-import android.util.Log
 import com.example.tasksprout.BoardSettingsActivity
-import com.example.tasksprout.model.BoardUser
-import com.example.tasksprout.model.Role
 import com.example.tasksprout.model.TaskBoardDataManager
 import com.example.tasksprout.model.TaskDataManager
-import com.example.tasksprout.model.UserDataManager
-import com.google.firebase.auth.FirebaseAuth
-import com.example.tasksprout.ui.TaskFragment
 import com.example.tasksprout.utilities.SignalManager
 
 

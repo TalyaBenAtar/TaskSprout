@@ -11,5 +11,6 @@ data class User(
     var tasksDone: Int = 0,
     var tasksNeglected: Int = 0,
     var unlockedAchievements: List<String> = emptyList(),
+    var usedDays: List<String> = emptyList(),
     var achievementProgress: Map<String, Int> = emptyMap()
 ) : Serializable

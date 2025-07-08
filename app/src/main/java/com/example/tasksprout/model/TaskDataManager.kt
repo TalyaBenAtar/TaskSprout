@@ -21,20 +21,11 @@ object TaskDataManager {
     private lateinit var appContext: Context
 
 
-//    private const val KEY_TASKS = "tasks"
-//    private val gson = Gson()
-
-
     fun init(context: Context) {
         appContext = context.applicationContext
         sharedPreferences = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-//        loadTasks()
     }
 
-
-    fun getAllTasks(): List<Task> {
-        return tasks
-    }
 
     fun markTaskAsOpened(name: String) {
         val opened =
@@ -135,8 +126,6 @@ object TaskDataManager {
         board: TaskBoard,
         onSuccess: () -> Unit
     ) {
-
-
         FirebaseFirestore.getInstance()
             .collection("boards")
             .whereEqualTo("name", board.name)
@@ -145,12 +134,10 @@ object TaskDataManager {
                 val doc = snapshot.documents.firstOrNull()
                 val boardDoc = doc?.toObject(TaskBoard::class.java) ?: return@addOnSuccessListener
 
-
                 //  use oldTask if given, fallback to name+desc match
                 val matchTask = oldTask ?: boardDoc.tasks.find {
                     it.name == updatedTask.name && it.description == updatedTask.description
                 }
-
 
                 if (matchTask != null && matchTask.status != updatedTask.status) {
                     UserDataManager.checkAndApplyXPChange(
@@ -169,7 +156,7 @@ object TaskDataManager {
                     } else {
                         it.name == updatedTask.name && it.description == updatedTask.description
                     }
-//delete? later
+
                     if (isMatch) {
                         if (it.assignedTo == null && updatedTask.assignedTo != null) {
                             UserDataManager.handleXPChange("CLAIM", boardDoc.name, appContext)

@@ -27,8 +27,10 @@ class AchievementAdapter(
     override fun onBindViewHolder(holder: AchievementViewHolder, position: Int) {
         val achievement = achievements[position]
         val isUnlocked = achievement.id in unlocked
-        val currentProgress = progress[achievement.id]?.toInt() ?: 0
+        var currentProgress = progress[achievement.id]?.toInt() ?: 0
         val target = achievement.targetCount
+
+        if (currentProgress>target) currentProgress=target
 
         holder.title.text = achievement.title
         holder.description.text = achievement.description
@@ -50,7 +52,6 @@ class AchievementAdapter(
             R.color.achievement_locked
 
         holder.card.setBackgroundColor(context.getColor(cardColor))
-
     }
 
     inner class AchievementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -8,16 +8,6 @@ data class Achievement(
     val type: AchievementType = AchievementType.TASK,
     val targetCount: Int = 1
 )
-//AchievementManager.tryUnlock(userEmail, "first_task_done") {
-//    showAchievementPopup(context, rootLayout, it)
-//}
-
-//AchievementManager.incrementAchievementProgress(
-//userEmail,
-//"first_task_done"
-//) { achievement ->
-//    AchievementManager.showAchievementPopup(requireContext(), rootLayout, achievement)
-//}
 
 
 enum class AchievementType {

@@ -13,13 +13,13 @@
         android:layout_marginBottom="4dp"
         android:layout_above="@id/footer_LBL_footer"
         android:src="@drawable/plant_logo"
-        android:contentDescription="App Logo" />
+        android:contentDescription="@string/app_logo" />
 
     <TextView
         android:id="@+id/footer_LBL_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Task Sprout"
+        android:text="@string/task_sprout"
         android:textSize="14sp"
         android:textStyle="italic"
         android:textColor="@color/teal_light"
@@ -31,7 +31,7 @@
         android:id="@+id/footer_BTN_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
+        android:text="@string/back"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/teal_light"

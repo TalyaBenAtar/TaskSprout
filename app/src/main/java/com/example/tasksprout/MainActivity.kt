@@ -47,11 +47,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        AchievementManager.trackDailyUsageAndUpdateProgress()
+
         AchievementManager.createDefaultAchievementsInFirestore()
         TaskBoardDataManager.init(applicationContext)
-        initCurrentUser()
+        initCurrentUser(){
+            AchievementManager.trackDailyUsageAndUpdateProgress()
+        }
         initViews()
+
     }
 
     private fun initViews() {
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_FRAME_boardList, BoardFragment())
             .commit()
     }
-    private fun initCurrentUser(){
+    private fun initCurrentUser(onSuccess: (() -> Unit)? = null){
         FirebaseAuth.getInstance().currentUser?.email?.let { email ->
             FirebaseFirestore.getInstance()
                 .collection("users")
@@ -82,10 +85,10 @@ class MainActivity : AppCompatActivity() {
                     if (user != null) {
                         UserDataManager.currentUser = user
                         Log.d("XP_DEBUG", "currentUser initialized in MainActivity: ${user.email}")
+                        onSuccess?.invoke()
                     }
                 }
         }
-
     }
 
 
@@ -208,15 +211,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun collectEmailsFromLayout(emailListLayout: LinearLayout): List<String> {
-        val emails = mutableListOf<String>()
-        for (i in 0 until emailListLayout.childCount) {
-            val emailET = emailListLayout.getChildAt(i) as? EditText
-            val email = emailET?.text?.toString()?.trim()
-            if (!email.isNullOrEmpty()) emails.add(email)
-        }
-        return emails
-    }
+
 
 
 }

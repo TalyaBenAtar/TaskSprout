@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.tasksprout.adapters.LeaderboardAdapter
 import com.example.tasksprout.databinding.ActivityBoardSettingsBinding
-import com.example.tasksprout.model.BoardUser
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
 import com.github.mikephil.charting.charts.PieChart
@@ -18,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.tasksprout.model.Role
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tasksprout.model.TaskBoardDataManager
 import com.example.tasksprout.utilities.SignalManager
 import com.github.mikephil.charting.components.Legend
 

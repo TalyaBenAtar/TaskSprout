@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/name"
             android:textSize="16sp"
             android:textColor="@color/white" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/leaderboard_TXT_xp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="999 XP"
+            android:text="@string/_5000xp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp" />

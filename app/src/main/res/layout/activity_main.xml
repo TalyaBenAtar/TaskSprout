@@ -16,15 +16,14 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:background="@drawable/user"
-        android:scaleType="centerCrop"
-        android:contentDescription="Profile" />
+        android:scaleType="centerCrop" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/main_LBL_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let's Start Working!"
+        android:text="@string/let_s_start_working"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -64,15 +63,14 @@
         android:layout_height="30dp"
         android:src="@drawable/plant_logo"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/main_LBL_footer"
-        android:contentDescription="App Logo" />
+        android:layout_above="@id/main_LBL_footer" />
 
     <!-- Footer -->
     <TextView
         android:id="@+id/main_LBL_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Task Sprout"
+        android:text="@string/task_sprout"
         android:textSize="14sp"
         android:textStyle="italic"
         android:textColor="@color/teal_light"

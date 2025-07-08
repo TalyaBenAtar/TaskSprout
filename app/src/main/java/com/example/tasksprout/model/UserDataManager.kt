@@ -1,6 +1,5 @@
 package com.example.tasksprout.model
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
@@ -91,11 +90,17 @@ object UserDataManager {
                     ssp.playSound(R.raw.gain_xp)
                 }
 
-
                 if (xp != 0) {
+                    addXP(xp, boardId)
+
                     val achievementIds = achievementEventTranslation(event)
                     achievementIds.forEach { achievementId ->
-                        addXP(xp, boardId, achievementId)
+                        handleTaskAchievements(achievementId)
+                    }
+                    if (xp>0) {
+                        handleTaskAchievements("reach_100_xp", xp)
+                        handleTaskAchievements("reach_250_xp", xp)
+                        handleTaskAchievements("reach_500_xp", xp)
                     }
                 }
             }
@@ -106,11 +111,23 @@ object UserDataManager {
         return when (event) {
             "CLAIM" -> listOf("first_task_claimed")
             "TO_DONE" -> listOf("first_task_done", "done_10_tasks")
-            "TO_NEGLECTED" -> listOf("oopsie_neglect_5")
+            "TO_NEGLECTED" -> listOf("neglect_5_tasks")
             else -> emptyList()
         }
     }
 
+    fun handleTaskAchievements(achievement: String? =null, incrementBy: Int?=1){
+        val user = currentUser ?: return
+        val email = user.email
+        val activity = CurrentActivityProvider.getActivity()
+        val rootLayout = activity?.findViewById<ViewGroup>(android.R.id.content)
+
+        if (achievement != null && activity != null && rootLayout != null) {
+            AchievementManager.incrementAchievementProgress(email, achievement, incrementBy) {
+                AchievementManager.showAchievementPopup(activity, rootLayout, it)
+            }
+        }
+    }
 
     fun checkAndApplyXPChange(
         oldStatus: Task.Status,
@@ -130,31 +147,22 @@ object UserDataManager {
                     (newStatus == Task.Status.TODO || newStatus == Task.Status.IN_PROGRESS) -> "NEGLECTED_RECOVERED"
             else -> null
         }
-
         transition?.let {
             handleXPChange(it, boardName, context)
         }
     }
 
-    fun addXP(amount: Int, boardId: String? = null, achievement: String? =null) {
+    fun addXP(amount: Int, boardId: String? = null) {
         val user = currentUser ?: return
         val email = user.email
         val db = FirebaseFirestore.getInstance()
-        val activity = CurrentActivityProvider.getActivity()
-        val rootLayout = activity?.findViewById<ViewGroup>(android.R.id.content)
-
 
         // Update global user XP
         val userRef = db.collection("users").document(email)
-//        userRef.update("xp", user.xp + amount)
-//            .addOnSuccessListener {
-//                currentUser?.xp = currentUser?.xp?.plus(amount) ?: amount
-//            }
         userRef.update("xp", FieldValue.increment(amount.toLong()))
             .addOnSuccessListener {
                 currentUser?.xp = (currentUser?.xp ?: 0) + amount
             }
-
 
         // Update in the board if provided
         if (boardId != null) {
@@ -168,7 +176,6 @@ object UserDataManager {
                     val updatedUsers = board.users.map {
                         if (it.email == email) it.copy(xp = it.xp + amount) else it
                     }
-
 
                     val updatedBoard = TaskBoard.Builder()
                         .name(board.name)
@@ -187,11 +194,7 @@ object UserDataManager {
                 }
         }
 
-        if (achievement != null && activity != null && rootLayout != null) {
-            AchievementManager.incrementAchievementProgress(email, achievement) {
-                AchievementManager.showAchievementPopup(activity, rootLayout, it)
-            }
-        }
+
 
     }
 

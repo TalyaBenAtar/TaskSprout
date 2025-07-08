@@ -9,6 +9,7 @@ class App : Application() {
         SignalManager.init(this)
         ImageLoader.init(this)
         registerActivityLifecycleCallbacks(CurrentActivityProvider)
+
     }
 
     override fun onTerminate() {

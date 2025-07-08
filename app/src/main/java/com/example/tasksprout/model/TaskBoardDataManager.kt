@@ -2,18 +2,11 @@ package com.example.tasksprout.model
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.example.tasksprout.CurrentActivityProvider
 import com.example.tasksprout.utilities.SignalManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.OnFailureListener
-import kotlin.collections.mapNotNull
-
 
 
 object TaskBoardDataManager {
@@ -21,24 +14,12 @@ object TaskBoardDataManager {
     private const val PREFS_NAME = "task_board_data"
     private lateinit var sharedPreferences: SharedPreferences
     private const val KEY_OPENED_BOARDS = "opened_boards"
-    val taskBoards = mutableListOf<TaskBoard>()
-
-
-//    private const val KEY_BOARDS = "task_boards"
-//    private val gson = Gson()
 
 
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    fun getAllBoards(): List<TaskBoard> {
-        return taskBoards
-    }
-
-    fun getBoardByName(name: String?): TaskBoard? {
-        return taskBoards.find { it.name == name }
-    }
 
     fun createBoardInFirestore(
         context: Context,
@@ -152,59 +133,26 @@ object TaskBoardDataManager {
             }
     }
 
-    fun rebuildBoardWithLatestDataAndTasks(
-        boardName: String,
-        updatedTasks: List<Task>,
-        onComplete: (TaskBoard?) -> Unit
+
+    fun checkAndAwardBoardJoinAchievements(
+        context: Context,
+        userEmail: String,
+        currentBoards: List<TaskBoard>
     ) {
-        FirebaseFirestore.getInstance()
-            .collection("boards")
-            .whereEqualTo("name", boardName)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val doc = snapshot.documents.firstOrNull()
-                if (doc != null) {
-                    val board = doc.toObject(TaskBoard::class.java)
-                    if (board != null) {
-                        val rebuiltBoard = TaskBoard.Builder()
-                            .name(board.name)
-                            .description(board.description)
-                            .users(board.users)
-                            .tasks(updatedTasks)
-                            .releaseDate(board.releaseDate)
-                            .xpClaim(board.xpClaim)
-                            .xpTodoToInProgress(board.xpTodoToInProgress)
-                            .xpToDone(board.xpToDone)
-                            .xpToNeglected(board.xpToNeglected)
-                            .xpNeglectedRecovered(board.xpNeglectedRecovered)
-                            .build()
-                        onComplete(rebuiltBoard)
-                    } else {
-                        onComplete(null)
+        val activity = CurrentActivityProvider.getActivity() ?: return
+        val rootLayout = activity.findViewById<ViewGroup>(android.R.id.content)
+
+        currentBoards.forEach { board ->
+            if (!hasBoardBeenOpened(board.name)) {
+                listOf("joined_board", "joined_5_boards", "joined_10_boards").forEach { achievementId ->
+                    AchievementManager.incrementAchievementProgress(userEmail, achievementId) {
+                        AchievementManager.showAchievementPopup(context, rootLayout, it)
                     }
-                } else {
-                    onComplete(null)
                 }
             }
-            .addOnFailureListener {
-                onComplete(null)
-            }
+        }
     }
 
-    fun getLatestBoardByName(boardName: String, onComplete: (TaskBoard?) -> Unit) {
-        FirebaseFirestore.getInstance()
-            .collection("boards")
-            .whereEqualTo("name", boardName)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val doc = snapshot.documents.firstOrNull()
-                val board = doc?.toObject(TaskBoard::class.java)
-                onComplete(board)
-            }
-            .addOnFailureListener {
-                onComplete(null)
-            }
-    }
 
 
 }

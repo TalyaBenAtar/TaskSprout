@@ -17,7 +17,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.storage
-import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.PickVisualMediaRequest
 import android.os.Handler
@@ -69,7 +68,6 @@ class ProfileActivity : AppCompatActivity() {
                     UserDataManager.init(this) { retrySuccess ->
                         if (retrySuccess) {
                             val user = UserDataManager.currentUser!!
-                            // ...
                         } else {
                             SignalManager.getInstance().toast("Failed to load profile")
                         }
@@ -167,10 +165,6 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { downloadUrl ->
                 ImageLoader.getInstance().loadImage(downloadUrl.toString(), binding.profileViewBanner)
             }
-            .addOnFailureListener {
-                // Optional: show placeholder or ignore silently
-            }
-
     }
 
 

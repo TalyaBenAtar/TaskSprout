@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tasksprout.databinding.ActivityForestBinding
+import com.example.tasksprout.model.AchievementManager
 import com.example.tasksprout.model.ForestPlant
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
@@ -34,9 +35,10 @@ class ForestActivity : AppCompatActivity() {
         binding = ActivityForestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.forestBTNResetPositions.setOnClickListener {
-            resetPlantPositions()
-        }
+        //reset positions of plants- used for development but kept just in case it's needed
+//        binding.forestBTNResetPositions.setOnClickListener {
+//            resetPlantPositions()
+//        }
 
         binding.forestBackButton.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
@@ -52,6 +54,9 @@ class ForestActivity : AppCompatActivity() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val forestRef = db.collection("users").document(userEmail).collection("forestPlants")
         val boardRef = db.collection("boards")
+        var achievementIds: List<String> =emptyList()
+        val rootLayout = this.findViewById<ViewGroup>(android.R.id.content)
+
         Log.d("FOREST_DEBUG", "Fetching forest for user: $userEmail")
 
         val existingPlants = mutableListOf<ForestPlant>()
@@ -150,14 +155,22 @@ class ForestActivity : AppCompatActivity() {
                 }
                 forestRef.get().addOnSuccessListener { updatedSnapshot ->
                     val updatedSize = updatedSnapshot.size()
-
                     val newCount = updatedSize - initialSize
+
                     if (newCount > 0) {
                         ssp.playSound(R.raw.plant_grew)
+                        achievementIds = getPlantAchievementsForCount(updatedSize)
+
                         if (newCount == 1)
                             SignalManager.getInstance().toast("🌱 A new plant sprouted!")
-                        else
+                         else
                             SignalManager.getInstance().toast("🌱 $newCount new plants sprouted in your forest!")
+
+                        achievementIds.forEach { achievementId ->
+                            AchievementManager.incrementAchievementProgress(userEmail, achievementId) {
+                                AchievementManager.showAchievementPopup(this, rootLayout, it)
+                            }
+                        }
                     }
                     if (plantStatusUpdated!=0) ssp.playSound(R.raw.plant_grew)
 
@@ -166,6 +179,16 @@ class ForestActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun getPlantAchievementsForCount(count: Int): List<String> {
+        val achievements = mutableListOf<String>()
+        if (count >= 1) achievements.add("first_forest_plant")
+        if (count >= 5) achievements.add("plant_5")
+        if (count >= 10) achievements.add("plant_10")
+        if (count >= 20) achievements.add("plant_20")
+        return achievements
+    }
+
 
     private fun reloadForestUI() {
         binding.forestBoundsFrame.removeAllViews()
@@ -324,7 +347,7 @@ class ForestActivity : AppCompatActivity() {
     }
 
 
-    //dev only function to delete positions of plants, can only be used when button is visible in app
+    //dev only function to delete positions of plants, can only be used when button is visible in app- keeping it in case it's needed
     private fun resetPlantPositions() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
         val forestRef = db.collection("users").document(userEmail).collection("forestPlants")

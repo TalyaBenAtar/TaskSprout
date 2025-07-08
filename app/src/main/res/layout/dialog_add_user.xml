@@ -10,7 +10,7 @@
         android:id="@+id/dialog_ET_user_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter email to add"
+        android:hint="@string/enter_email_to_add"
         android:textColorHint="@color/grey"
         android:textColor="@color/black" />
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Add"
+        android:text="@string/add"
         android:backgroundTint="@color/teal_light"
         android:textColor="@android:color/white" />
 </LinearLayout>

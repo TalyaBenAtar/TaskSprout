@@ -108,7 +108,8 @@ class BoardFragment : Fragment() {
                     boardList.clear()
                     boardList.addAll(boards)
                     boardAdapter.notifyDataSetChanged()
-                }
+
+                    TaskBoardDataManager.checkAndAwardBoardJoinAchievements(requireContext(), userEmail, boards)                }
             }
     }
 

@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/dialog_ET_board_name"
-            android:hint="Board Name"
+            android:hint="@string/board_name"
             android:textColorHint="@color/grey"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
 
         <EditText
             android:id="@+id/dialog_ET_board_description"
-            android:hint="Description"
+            android:hint="@string/description"
             android:textColorHint="@color/grey"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/dialog_BTN_add_email"
-            android:text="Add User Email"
+            android:text="@string/add_user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -48,7 +48,7 @@
 
         <Button
             android:id="@+id/dialog_BTN_create_board"
-            android:text="Create Board"
+            android:text="@string/create_board"
             android:layout_margin="4dp"
             android:layout_marginStart="4dp"
             android:backgroundTint="@color/teal_light"

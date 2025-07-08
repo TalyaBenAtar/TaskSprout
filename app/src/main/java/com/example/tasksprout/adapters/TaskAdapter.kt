@@ -19,8 +19,6 @@ import com.example.tasksprout.interfaces.TaskInteractionHandler
 import com.example.tasksprout.model.BoardUser
 import com.example.tasksprout.model.TaskBoard
 import com.example.tasksprout.model.TaskDataManager
-import com.example.tasksprout.model.UserDataManager
-import com.example.tasksprout.utilities.SignalManager
 
 
 class TaskAdapter(

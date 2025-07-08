@@ -13,7 +13,7 @@
 
         <EditText
             android:id="@+id/dialog_ET_task_name"
-            android:hint="Task Name"
+            android:hint="@string/task_name"
             android:textColorHint="@color/grey"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
         <EditText
             android:id="@+id/dialog_ET_task_description"
-            android:hint="Description"
+            android:hint="@string/description"
             android:textColorHint="@color/grey"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
 
         <Button
             android:id="@+id/dialog_BTN_add_task"
-            android:text="Add Task"
+            android:text="@string/add_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

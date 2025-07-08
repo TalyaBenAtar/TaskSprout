@@ -12,7 +12,7 @@
     <string name="neglect">Neglect</string>
     <string name="settings">settings</string>
     <string name="add_new_board">+ Add New Board</string>
-    <string name="add">add</string>
+    <string name="add">Add</string>
     <string-array name="task_status_array">
         <item>To Do</item>
         <item>In Progress</item>
@@ -20,6 +20,52 @@
         <item>Neglected</item>
     </string-array>
     <string name="achievement_icon">Achievement Icon</string>
+    <string name="back">Back</string>
+    <string name="xp_settings_manager_only">XP Settings (Manager Only)</string>
+    <string name="xp_for_claiming_task">XP for Claiming Task</string>
+    <string name="xp_for_todo_in_progress">XP for TODO → In Progress</string>
+    <string name="xp_for_moving_to_done">XP for Moving to Done</string>
+    <string name="xp_loss_for_neglecting_task">XP Loss for Neglecting Task</string>
+    <string name="xp_for_recovering_neglected_task">XP for Recovering Neglected Task</string>
+    <string name="save_xp_settings">Save XP Settings</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="task_stats_per_status">Task Stats per Status</string>
+    <string name="my_forest">My Forest</string>
+    <string name="reset_positions">Reset positions🌱</string>
+    <string name="let_s_start_working">Let\'s Start Working!</string>
+    <string name="task_sprout">Task Sprout</string>
+    <string name="name">Name</string>
+    <string name="email_example_com">email@example.com</string>
+    <string name="_5000xp">5000XP</string>
+    <string name="you_finished_40_tasks">You finished 40 tasks!</string>
+    <string name="task_status">Task status:</string>
+    <string name="_5_to_do_s_n3_in_progress_n40_done_n8_neglected">5 To Do\'s\n3 In Progress\n40 Done\n8 Neglected</string>
+    <string name="my_achievements">My Achievements</string>
+    <string name="_17_jun_2025">17_jun_2025</string>
+    <string name="board_name">Board Name</string>
+    <string name="this_is_the_description_of_the_board">This is the description of the board...</string>
+    <string name="_3_members">3 members</string>
+    <string name="add_task">Add Task</string>
+    <string name="add_user">Add User</string>
+    <string name="task_name">Task Name</string>
+    <string name="description">Description</string>
+    <string name="enter_email_to_add">Enter email to add</string>
+    <string name="edit_board">Edit Board</string>
+    <string name="delete_board">Delete Board</string>
+    <string name="remove_user">Remove User</string>
+    <string name="add_user_email">Add User Email</string>
+    <string name="create_board">Create Board</string>
+    <string name="enter_new_name">Enter new name</string>
+    <string name="select_image">Select Image</string>
+    <string name="upload_and_save">Upload and Save</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="app_logo">App Logo</string>
+    <string name="this_is_the_description_of_the_task">This is the description of the task...</string>
+    <string name="assigned_to_name">Assigned to: Name</string>
+    <string name="claim">Claim</string>
+    <string name="achievement_unlocked">Achievement Unlocked!</string>
+    <string name="_50_xp">+50 XP</string>
 
 
 </resources>

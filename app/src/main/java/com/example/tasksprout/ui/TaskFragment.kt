@@ -14,10 +14,8 @@ import com.example.tasksprout.interfaces.TaskInteractionHandler
 import com.example.tasksprout.model.BoardUser
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
-import com.example.tasksprout.model.TaskBoardDataManager
 import com.example.tasksprout.model.TaskDataManager
 import com.example.tasksprout.model.UserDataManager
-import com.example.tasksprout.utilities.SignalManager
 import com.google.firebase.firestore.FirebaseFirestore
 
 class TaskFragment : Fragment() {

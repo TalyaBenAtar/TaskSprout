@@ -18,7 +18,7 @@
             android:id="@+id/board_setting_BTN_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="@string/back"
             android:paddingTop="10dp"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/teal_light"
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="XP Settings (Manager Only)"
+                android:text="@string/xp_settings_manager_only"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textColor="@color/black"
-                android:hint="XP for Claiming Task"
+                android:hint="@string/xp_for_claiming_task"
                 android:inputType="number" />
 
             <EditText
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textColor="@color/black"
-                android:hint="XP for TODO → In Progress"
+                android:hint="@string/xp_for_todo_in_progress"
                 android:inputType="number" />
 
             <EditText
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textColor="@color/black"
-                android:hint="XP for Moving to Done"
+                android:hint="@string/xp_for_moving_to_done"
                 android:inputType="number" />
 
             <EditText
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textColor="@color/black"
-                android:hint="XP Loss for Neglecting Task"
+                android:hint="@string/xp_loss_for_neglecting_task"
                 android:inputType="numberSigned" />
 
             <EditText
@@ -85,14 +85,14 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textColor="@color/black"
-                android:hint="XP for Recovering Neglected Task"
+                android:hint="@string/xp_for_recovering_neglected_task"
                 android:inputType="number" />
 
             <Button
                 android:id="@+id/btn_Save_XP_Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save XP Settings"
+                android:text="@string/save_xp_settings"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/teal_light"
                 android:layout_marginTop="8dp" />
@@ -111,7 +111,7 @@
                 android:id="@+id/board_Settings_LBL_Leaderboard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Leaderboard"
+                android:text="@string/leaderboard"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -134,7 +134,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Task Stats per Status"
+                android:text="@string/task_stats_per_status"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"

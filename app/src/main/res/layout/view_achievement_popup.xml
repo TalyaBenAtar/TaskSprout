@@ -28,7 +28,7 @@
             android:id="@+id/popupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Achievement Unlocked!"
+            android:text="@string/achievement_unlocked"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -41,6 +41,6 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginTop="4dp"
-            android:text="+50 XP" />
+            android:text="@string/_50_xp" />
     </LinearLayout>
 </LinearLayout>

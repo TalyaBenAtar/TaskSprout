@@ -20,7 +20,7 @@ class AchievementsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_achievements)
 
         findViewById<Button>(R.id.btn_back).setOnClickListener {
-            finish() // Close this activity and return to profile
+            finish()
         }
 
         recyclerView = findViewById(R.id.recycler_achievements)

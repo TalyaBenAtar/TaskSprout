@@ -17,7 +17,7 @@
             android:id="@+id/profile_BTN_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="@string/back"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/teal_light"
             android:layout_marginEnd="130dp" />
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
-            android:text="Sign Out"
+            android:text="@string/sign_out"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/teal_light" />
     </LinearLayout>
@@ -77,7 +77,7 @@
                         android:id="@+id/profile_LBL_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:layout_marginTop="18dp"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
@@ -87,7 +87,7 @@
                         android:id="@+id/profile_LBL_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="email@example.com"
+                        android:text="@string/email_example_com"
                         android:textColor="@android:color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -119,7 +119,7 @@
                 android:id="@+id/profile_LBL_xp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5000XP"
+                android:text="@string/_5000xp"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -129,7 +129,7 @@
                 android:id="@+id/profile_LBL_task_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You finished 40 tasks!"
+                android:text="@string/you_finished_40_tasks"
                 android:textSize="25sp"
                 android:textColor="@color/teal_light"
                 android:layout_marginBottom="12dp" />
@@ -138,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Task status:"
+                android:text="@string/task_status"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:textColor="@color/black"
@@ -149,7 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/teal_light"
-                android:text="5 To Do's\n3 In Progress\n40 Done\n8 Neglected"
+                android:text="@string/_5_to_do_s_n3_in_progress_n40_done_n8_neglected"
                 android:textSize="20sp"
                 android:layout_marginBottom="80dp" />
         </LinearLayout>
@@ -171,7 +171,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="My Forest"
+            android:text="@string/my_forest"
             android:backgroundTint="@color/teal_light"
             android:textColor="@android:color/white"
             android:layout_marginEnd="8dp" />
@@ -181,7 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="My Achievements"
+            android:text="@string/my_achievements"
             android:backgroundTint="@color/teal_light"
             android:textColor="@android:color/white"
             android:layout_marginStart="8dp" />

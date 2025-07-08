@@ -9,7 +9,7 @@
         android:id="@+id/dialog_BTN_edit_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Board"
+        android:text="@string/edit_board"
         android:backgroundTint="@color/teal_light"
         android:textColor="@android:color/white"
         android:layout_marginBottom="8dp" />
@@ -18,7 +18,7 @@
         android:id="@+id/dialog_BTN_delete_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete Board"
+        android:text="@string/delete_board"
         android:backgroundTint="@color/red_dark"
         android:textColor="@android:color/white"
         android:layout_marginBottom="8dp" />
@@ -28,7 +28,7 @@
         android:id="@+id/dialog_BTN_remove_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Remove User"
+        android:text="@string/remove_user"
         android:backgroundTint="@color/grey"
         android:textColor="@android:color/white" />
 </LinearLayout>

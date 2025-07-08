@@ -11,7 +11,7 @@
         android:id="@+id/dialog_BTN_add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Task"
+        android:text="@string/add_task"
         android:backgroundTint="@color/teal_light"
         android:textColor="@android:color/white"
         android:layout_marginBottom="8dp" />
@@ -20,7 +20,7 @@
         android:id="@+id/dialog_BTN_add_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add User"
+        android:text="@string/add_user"
         android:backgroundTint="@color/teal_light"
         android:textColor="@android:color/white" />
 </LinearLayout>
