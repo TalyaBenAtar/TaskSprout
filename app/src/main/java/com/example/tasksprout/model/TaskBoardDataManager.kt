@@ -28,11 +28,10 @@ object TaskBoardDataManager {
         onFailure: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-                // Save the board
-                db.collection("boards")
-                    .add(taskBoard)
-                    .addOnSuccessListener { onSuccess() }
-                    .addOnFailureListener { e -> onFailure(e.message ?: "Unknown error") }
+        db.collection("boards")
+            .add(taskBoard)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> onFailure(e.message ?: "Unknown error") }
     }
 
     fun markBoardAsOpened(name: String) {
