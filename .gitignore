@@ -17,6 +17,11 @@ local.properties
 # Firebase config (DO NOT SHARE)
 **/google-services.json
 
+# Firebase Admin SDK service key
+/app/serviceAccountKey.json
+**/serviceAccountKey.json
+
+
 # Keystore & credentials
 *.keystore
 *.jks

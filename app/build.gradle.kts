@@ -90,4 +90,8 @@ dependencies {
     implementation(libs.konfetti.xml)
     implementation(libs.konfetti.core)
 
+    //cloud messaging
+    implementation(libs.firebase.messaging)
+
+
 }

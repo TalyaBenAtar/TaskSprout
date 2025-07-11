@@ -2,6 +2,7 @@
 agp = "8.11.0"
 firebaseBom = "33.15.0"
 firebaseFirestoreKtx = "24.10.3"
+firebaseMessaging = "23.4.1"
 firebaseUiAuth = "9.0.0"
 gson = "2.10.1"
 konfettiCore = "2.0.5"
@@ -27,6 +28,7 @@ firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

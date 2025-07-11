@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 
     <application
@@ -34,6 +37,15 @@
         <activity android:name=".TaskBoardActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".BoardSettingsActivity" />
+
+        <service
+            android:name=".utilities.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name="com.firebase.ui.auth.KickoffActivity"
             android:exported="false"

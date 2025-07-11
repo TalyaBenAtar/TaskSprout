@@ -29,6 +29,12 @@ import com.example.tasksprout.utilities.SignalManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import com.google.firebase.messaging.FirebaseMessaging
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         TaskBoardDataManager.init(applicationContext)
         initCurrentUser(){
             AchievementManager.trackDailyUsageAndUpdateProgress()
+            requestNotificationPermission()
+            updateUserFCMToken()
         }
         initViews()
 
@@ -87,6 +95,40 @@ class MainActivity : AppCompatActivity() {
                         Log.d("XP_DEBUG", "currentUser initialized in MainActivity: ${user.email}")
                         onSuccess?.invoke()
                     }
+                }
+        }
+    }
+
+
+    fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1001
+                )
+            }
+        }
+    }
+
+    private fun updateUserFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) return@addOnCompleteListener
+
+            val token = task.result
+            val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return@addOnCompleteListener
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userEmail)
+                .update("fcmToken", token)
+                .addOnSuccessListener {
+                    Log.d("FCM", "Token saved to Firestore: $token")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FCM", "Failed to save token", e)
                 }
         }
     }

@@ -25,6 +25,7 @@ import com.example.tasksprout.model.TaskDataManager
 import com.example.tasksprout.utilities.SignalManager
 
 
+
 class TaskUpperMenuFragment : Fragment(R.layout.fragment_task_upper_menu) {
 
     private lateinit var taskBoard_BTN_settings: ImageButton
@@ -250,6 +251,7 @@ fun showTaskDialog(taskToEdit: Task? = null) {
             Task.Status.NEGLECTED -> ContextCompat.getColor(context, R.color.red_200)
         }
     }
+
 
 
 

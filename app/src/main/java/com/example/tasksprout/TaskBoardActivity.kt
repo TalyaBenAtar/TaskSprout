@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +14,7 @@ import com.example.tasksprout.interfaces.Callback_TaskClicked
 import com.example.tasksprout.model.Task
 import com.example.tasksprout.model.TaskBoard
 import com.example.tasksprout.model.TaskDataManager
+import com.example.tasksprout.model.UserDataManager
 import com.example.tasksprout.ui.TaskUpperMenuFragment
 import com.example.tasksprout.ui.TaskFragment
 import com.example.tasksprout.utilities.SignalManager
@@ -53,7 +55,10 @@ class TaskBoardActivity : AppCompatActivity() {
         board = boardFromIntent
 
         findViews()
-        initViews()
+        UserDataManager.refreshUserName{
+            initViews()
+        }
+
     }
 
     private fun findViews() {
@@ -69,6 +74,10 @@ class TaskBoardActivity : AppCompatActivity() {
         footerView.findViewById<Button>(R.id.footer_BTN_back).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+        }
+
+        footerView.findViewById<ImageButton>(R.id.footer_BTN_refresh).setOnClickListener {
+            taskFragment.loadTasksFromFirestore()
         }
 
         taskUpperMenuFragmant = TaskUpperMenuFragment()

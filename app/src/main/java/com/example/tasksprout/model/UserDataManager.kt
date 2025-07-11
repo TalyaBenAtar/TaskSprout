@@ -322,6 +322,24 @@ object UserDataManager {
             .addOnFailureListener { onComplete(false) }
     }
 
+    fun refreshUserName(onComplete: (String?) -> Unit) {
+        val email = FirebaseAuth.getInstance().currentUser?.email ?: return onComplete(null)
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(email)
+
+        userRef.get()
+            .addOnSuccessListener { snapshot ->
+                val name = snapshot.getString("name")
+                if (name != null) {
+                    currentUser?.name = name
+                    onComplete(name)
+                } else {
+                    onComplete(null)
+                }
+            }
+            .addOnFailureListener {
+                onComplete(null)
+            }
+    }
 
 
 }
