@@ -99,7 +99,7 @@ class TaskBoardActivity : AppCompatActivity() {
 
         taskFragment.TaskItemClicked =
             object : Callback_TaskClicked {
-                override fun onClick(score: Task) {
+                override fun onClick(task: Task) {
 
                 }
             }

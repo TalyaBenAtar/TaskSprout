@@ -2,15 +2,8 @@ package com.example.tasksprout.model
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.fragment.app.Fragment
-import com.example.tasksprout.R
-import com.example.tasksprout.ui.TaskFragment
-import com.example.tasksprout.ui.TaskUpperMenuFragment
 import com.example.tasksprout.utilities.SignalManager
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 object TaskDataManager {
 
@@ -147,7 +140,6 @@ object TaskDataManager {
                         boardName = board.name,
                         appContext
                     )
-                    SignalManager.getInstance().toast("XP updated!")
                 }
 
                 val updatedTasks = boardDoc.tasks.map {

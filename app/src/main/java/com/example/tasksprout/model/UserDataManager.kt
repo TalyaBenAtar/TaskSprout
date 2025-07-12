@@ -198,24 +198,6 @@ object UserDataManager {
 
     }
 
-
-    // Save the currentUser to Firestore.
-    fun saveUserToFirestore(onComplete: (Boolean) -> Unit = {}) {
-        val user = currentUser ?: return onComplete(false)
-
-        firestore.collection(USERS_COLLECTION)
-            .document(user.email)
-            .set(user)
-            .addOnSuccessListener {
-                Log.d("UserDataManager", "User saved successfully")
-                onComplete(true)
-            }
-            .addOnFailureListener {
-                Log.e("UserDataManager", "Failed to save user", it)
-                onComplete(false)
-            }
-    }
-
     fun updateUserName(newName: String, onComplete: (Boolean) -> Unit) {
         val email = FirebaseAuth.getInstance().currentUser?.email ?: return onComplete(false)
         val userRef = FirebaseFirestore.getInstance().collection("users").document(email)

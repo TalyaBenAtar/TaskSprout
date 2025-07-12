@@ -123,9 +123,6 @@ class TaskFragment : Fragment() {
         return allTasks.find { it.name == name && it.description == desc }
     }
 
-    fun getTaskAt(index: Int): Task? {
-        return if (index in allTasks.indices) allTasks[index] else null
-    }
 
 
 
