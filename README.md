@@ -82,34 +82,76 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 
 ## 📸 Screenshots
 
-### 🔐 Login & Register
-![Login Page](insert_login_image_here.png)
-<img width="302" height="556" alt="taskSprout_login" src="https://github.com/user-attachments/assets/42e11b7d-68ad-4da3-b4ef-7bf091891c0c" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/42e11b7d-68ad-4da3-b4ef-7bf091891c0c" width="200"/><br>
+      <b>Login & Register</b>
+    </td>
+  </tr>
+</table>
 
-### 🗂️ Board List
-![Board List Page](insert_board_list_image_here.png)
-<img width="297" height="558" alt="taskSprout_boardList" src="https://github.com/user-attachments/assets/97b892fa-8bf9-4acd-aec4-63ef9cd55f65" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/97b892fa-8bf9-4acd-aec4-63ef9cd55f65" width="200"/><br>
+      <b>Board List</b>
+    </td>
+  </tr>
+</table>
 
-### 📝 Task Board
-![Task Board Page](insert_task_board_image_here.png)
-<img width="305" height="556" alt="taskSprout_TaskBoard" src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" />
-<img width="298" height="561" alt="taskSprout_taskBoard2" src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" />
-<img width="627" height="566" alt="taskSprout_taskBoard3" src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="200"/><br>
+      Task Board 1
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="200"/><br>
+      Task Board 2
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="300"/><br>
+      Task Board 3
+    </td>
+  </tr>
+</table>
 
-### 📊 Board Stats
-![Board Stats Page](insert_stats_image_here.png)
-<img width="298" height="556" alt="taskSprout_stats1" src="https://github.com/user-attachments/assets/7cb0d3ea-7ec2-497c-9ee8-c2ef93f00b8f" />
-<img width="992" height="563" alt="taskSprout_stats2" src="https://github.com/user-attachments/assets/29c3fbdc-3a40-49e4-9a70-27fd69f8eaa7" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/7cb0d3ea-7ec2-497c-9ee8-c2ef93f00b8f" width="200"/><br>
+      Stats (XP Editor)
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/29c3fbdc-3a40-49e4-9a70-27fd69f8eaa7" width="400"/><br>
+      Stats (Charts & Leaderboard)
+    </td>
+  </tr>
+</table>
 
-### 🌲 Profile Page
-<img width="297" height="566" alt="taskSprout_profilePage" src="https://github.com/user-attachments/assets/2e8f59d3-4c42-4c7a-a2e5-ae7419639c55" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/2e8f59d3-4c42-4c7a-a2e5-ae7419639c55" width="200"/><br>
+      <b>Profile Page</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/092ee0d2-003b-4868-8a6f-ab658e20790a" width="200"/><br>
+      <b>Forest Page</b>
+    </td>
+  </tr>
+</table>
 
-### 🌲 Forest Page
-![Forest Page](insert_forest_image_here.png)<img width="305" height="562" alt="taskSprout_forest" src="https://github.com/user-attachments/assets/092ee0d2-003b-4868-8a6f-ab658e20790a" />
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" width="400"/><br>
+      <b>Achievements</b>
+    </td>
+  </tr>
+</table>
 
-### 🏆 Achievements
-![Achievements Page](insert_achievements_image_here.png)
-<img width="983" height="562" alt="taskSprout_achievements" src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" />
 
 ---
 
