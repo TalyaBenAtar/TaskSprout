@@ -103,7 +103,7 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="280"/><br>
+      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="265"/><br>
       Task Board- TO DO
     </td>
     <td align="center">
@@ -137,7 +137,7 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
       <b>Profile Page</b>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/092ee0d2-003b-4868-8a6f-ab658e20790a" width="215"/><br>
+      <img src="https://github.com/user-attachments/assets/092ee0d2-003b-4868-8a6f-ab658e20790a" width="210"/><br>
       <b>Forest Page</b>
     </td>
   </tr>
