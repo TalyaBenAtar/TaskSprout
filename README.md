@@ -104,15 +104,15 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
   <tr>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="200"/><br>
-      Task Board 1
+      Task Board- TO DO
     </td>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="200"/><br>
-      Task Board 2
+      Task Board IN PROGRESS
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="300"/><br>
-      Task Board 3
+      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="600"/><br>
+      Task Board DONE & NEGLECTED
     </td>
   </tr>
 </table>
@@ -121,11 +121,11 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
   <tr>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/7cb0d3ea-7ec2-497c-9ee8-c2ef93f00b8f" width="200"/><br>
-      Stats (XP Editor)
+      Stats (XP Editor & Leaderboard)
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/29c3fbdc-3a40-49e4-9a70-27fd69f8eaa7" width="400"/><br>
-      Stats (Charts & Leaderboard)
+      <img src="https://github.com/user-attachments/assets/29c3fbdc-3a40-49e4-9a70-27fd69f8eaa7" width="600"/><br>
+      Stats (Charts)
     </td>
   </tr>
 </table>
@@ -146,7 +146,7 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" width="400"/><br>
+      <img src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" width="600"/><br>
       <b>Achievements</b>
     </td>
   </tr>
