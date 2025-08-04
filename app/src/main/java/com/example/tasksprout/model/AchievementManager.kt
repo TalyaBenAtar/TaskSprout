@@ -129,23 +129,24 @@ object AchievementManager {
                 userRef.update("usedDays", usedDays.toList())
                     .addOnSuccessListener {
                         Log.d("Achievement_DEBUG", "Successfully updated usedDays: $usedDays")
+
+                        achievementsToCheck.forEach { achievementId ->
+                            incrementAchievementProgress(user.email!!, achievementId) {
+                                Log.d("Achievement_DEBUG", "Calling incrementAchievementProgress for $achievementId")
+
+                                if (activity != null && rootLayout != null) {
+                                    showAchievementPopup(activity, rootLayout, it)
+                                }
+                            }
+                        }
                     }
+
                     .addOnFailureListener {
                         Log.e("Achievement_DEBUG", "Failed to update usedDays", it)
                     }
-
-                achievementsToCheck.forEach { achievementId ->
-                    incrementAchievementProgress(user.email!!, achievementId) {
-                        Log.d("Achievement_DEBUG", "Calling incrementAchievementProgress for $achievementId")
-
-                        if (activity != null && rootLayout != null) {
-                            showAchievementPopup(activity, rootLayout, it)
-                        }
-                    }
-                }
             }
             // Always check the current size after update or read
-            val totalDays = usedDays.size
+            val totalDays = usedDays.size -1
 
             achievementsToCheck.forEach { achievementId ->
                 getAchievement(achievementId) { achievement ->

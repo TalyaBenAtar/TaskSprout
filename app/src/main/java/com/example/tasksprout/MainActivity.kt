@@ -75,22 +75,55 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_FRAME_boardList, BoardFragment())
             .commit()
     }
-    private fun initCurrentUser(onSuccess: (() -> Unit)? = null){
+//    private fun initCurrentUser(onSuccess: (() -> Unit)? = null){
+//        FirebaseAuth.getInstance().currentUser?.email?.let { email ->
+//            FirebaseFirestore.getInstance()
+//                .collection("users")
+//                .document(email)
+//                .get()
+//                .addOnSuccessListener { doc ->
+//                    val user = doc.toObject(User::class.java)
+//                    if (user != null) {
+//                        UserDataManager.currentUser = user
+//                        Log.d("XP_DEBUG", "currentUser initialized in MainActivity: ${user.email}")
+//                        onSuccess?.invoke()
+//                    }
+//                }
+//        }
+//    }
+
+    fun initCurrentUser(onSuccess: (() -> Unit)? = null) {
         FirebaseAuth.getInstance().currentUser?.email?.let { email ->
-            FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(email)
-                .get()
-                .addOnSuccessListener { doc ->
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(email)
+
+            userRef.get().addOnSuccessListener { doc ->
+                if (doc.exists()) {
                     val user = doc.toObject(User::class.java)
                     if (user != null) {
                         UserDataManager.currentUser = user
                         Log.d("XP_DEBUG", "currentUser initialized in MainActivity: ${user.email}")
                         onSuccess?.invoke()
                     }
+                } else {
+                    // 🔥 Create a new user document if it doesn't exist
+                    val newUser = User(
+                        email = email,
+                        name = email.substringBefore("@"),
+                        xp = 0,
+                        unlockedAchievements = emptyList()
+                    )
+                    userRef.set(newUser).addOnSuccessListener {
+                        UserDataManager.currentUser = newUser
+                        Log.d("XP_DEBUG", "New user created in Firestore: $email")
+                        onSuccess?.invoke()
+                    }.addOnFailureListener {
+                        Log.e("XP_DEBUG", "Failed to create user in Firestore", it)
+                    }
                 }
+            }
         }
     }
+
 
     private fun getDatabaseReference(path: String): DatabaseReference {
         val database = Firebase.database
