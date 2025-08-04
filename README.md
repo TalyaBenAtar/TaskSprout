@@ -103,15 +103,15 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="200"/><br>
+      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="300"/><br>
       Task Board- TO DO
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="200"/><br>
+      <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="300"/><br>
       Task Board IN PROGRESS
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="600"/><br>
+      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="500"/><br>
       Task Board DONE & NEGLECTED
     </td>
   </tr>
