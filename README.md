@@ -160,8 +160,9 @@ Whether you're a student, team player, or solo productivity warrior — TaskSpro
 ## ⚙️ Getting Started
 
 ### 1. Clone the repo:
+```bash
 git clone https://github.com/yourusername/tasksprout.git
-
+```
 ### 🧑‍💻 2. Open the project in Android Studio
 
 ### 🔑 3. Add your Firebase configuration
@@ -177,7 +178,8 @@ Run the app on an Android emulator or physical android device (not suitable for 
 ### 📝 Extra Documentation
 For a complete breakdown of features, logic, and implementation decisions, check out the full presentation file below:
 
-[TaskSprout🌿 Documantaion.pdf](https://github.com/user-attachments/files/21576531/TaskSprout.Documantaion.pdf)
+[TaskSprout.Documentaion.pdf](https://github.com/user-attachments/files/21576779/TaskSprout.Documentaion.pdf)
+
 
 ---
 
