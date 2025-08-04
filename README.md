@@ -117,7 +117,7 @@ Run the app on an Android emulator or physical device
 
 ---
 
-###📝 Extra Documentation
+### 📝 Extra Documentation
 For a complete breakdown of features, logic, and implementation decisions, check out the full presentation file below:
 
 📄 TaskSprout🌿 – Talya Benatar (2).pdf
