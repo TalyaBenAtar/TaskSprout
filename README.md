@@ -49,7 +49,7 @@ Whether you're a student, team player, or solo productivity warrior — TaskSpro
 - DONE plants get automatically removed if the forest is full to make space for new plants.
 
 ### 🏆 **Achievements**
-- 16 achievements with custom icons, XP, and progress tracking.
+- 16 achievements with custom icons, XP earning, and progress tracking.
 - Includes: first task done, 10 tasks done, join 5 boards, etc.
 - In-app popup + confetti + sound on unlock.
 - Visual progress bars and unlock indicators per achievement.
