@@ -103,15 +103,15 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="300"/><br>
+      <img src="https://github.com/user-attachments/assets/699c8095-b093-478a-899d-0deba55bbac8" width="250"/><br>
       Task Board- TO DO
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="300"/><br>
+      <img src="https://github.com/user-attachments/assets/a486d212-bf23-4959-9d8b-835476334930" width="250"/><br>
       Task Board IN PROGRESS
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="500"/><br>
+      <img src="https://github.com/user-attachments/assets/2e68b134-6005-4b50-a1ad-2a29ff224249" width="550"/><br>
       Task Board DONE & NEGLECTED
     </td>
   </tr>
@@ -146,7 +146,7 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" width="600"/><br>
+      <img src="https://github.com/user-attachments/assets/5bbc04f9-0bbe-4962-8d25-a71deb89c5bc" width="650"/><br>
       <b>Achievements</b>
     </td>
   </tr>
