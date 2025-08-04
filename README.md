@@ -1,7 +1,7 @@
 # 🌿 **TaskSprout**  
 _A cozy, gamified task manager to grow your productivity one task at a time_
 
-![TaskSprout Banner](insert_banner_image_here.png)<img width="187" height="177" alt="taskSprout_logo" src="https://github.com/user-attachments/assets/24482e47-8308-411c-b360-541c05ce919a" />
+![TaskSprout Banner]<img width="187" height="177" alt="taskSprout_logo" src="https://github.com/user-attachments/assets/24482e47-8308-411c-b360-541c05ce919a" />
 
 
 ---
