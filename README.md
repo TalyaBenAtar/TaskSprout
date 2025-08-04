@@ -9,9 +9,10 @@ _A cozy, gamified task manager to grow your productivity one task at a time_
 ## 📖 Description
 
 **TaskSprout** transforms everyday task management into an engaging, collaborative experience.  
-Built with students and teams in mind, it adds **gamification**, **XP**, **achievements**, and even a **virtual forest** to keep you motivated! 🌱
+Complete tasks to grow XP, earn achievements 🏅, and plant virtual sprouts in your personal forest 🌱🌳
 
-Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into tiny trees in your personal forest.
+Built with collaboration in mind, users can create shared boards, assign tasks, and get motivated with a leaderboard and stats view. 
+Whether you're a student, team player, or solo productivity warrior — TaskSprout grows with you.
 
 ---
 
@@ -19,18 +20,18 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 
 ### 🗂️ **Board Management**
 - Create, edit, delete, and share boards via email.
-- “NEW” label on first-time viewed boards (per device).
+- “NEW” label on new, unopened boards (per device).
 - All board info stored in **Firestore**.
 
 ### ✅ **Task Management**
-- Tasks have 5 statuses: `TODO`, `IN PROGRESS`, `DONE`, `NEGLECTED`, `CLAIMED`.
-- Claim tasks to earn XP — only the assignee gets XP for status updates.
-- Drag & Drop tasks between columns.
+- Tasks have 4 statuses: `TODO`, `IN PROGRESS`, `DONE`, `NEGLECTED`.
+- Claim tasks to earn XP — only the assignee gets (or losses) XP for status updates.
+- Drag & Drop tasks between statuses.
 - Sound effects for status changes.
 - Toast messages like “Task Added”, “Moved to DONE”, etc.
 
 ### 📊 **Board Statistics**
-- XP configuration (for managers only).
+- XP configuration (available for board managers only).
 - Leaderboard sorted by XP earned on the board.
 - Five pie charts: Claimed, TODO, IN PROGRESS, DONE, NEGLECTED.
 
@@ -38,19 +39,20 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 - Set your name and upload a profile picture.
 - View XP total, task breakdown, achievements.
 - Navigate to **Forest** and **Achievements**.
+- Sign out of your user (firebase authorization).
 
 ### 🌲 **Forest Page**
 - Every task you claim becomes a plant 🌱.
-- Status determines the plant's appearance.
+- Status determines the plant's appearance and stage of growth.
 - Plants have permanent screen positions.
-- "Sprouted!" toast and sound for new plants.
-- DONE plants get removed if the forest is full.
+- "Sprouted!" toast and sound for new plants or status changes.
+- DONE plants get automatically removed if the forest is full to make space for new plants.
 
 ### 🏆 **Achievements**
 - 16 achievements with custom icons, XP, and progress tracking.
 - Includes: first task done, 10 tasks done, join 5 boards, etc.
 - In-app popup + confetti + sound on unlock.
-- Visual progress bars and unlock indicators.
+- Visual progress bars and unlock indicators per achievement.
 
 ---
 
@@ -161,13 +163,14 @@ Complete tasks, earn XP, unlock achievements, and watch your to-dos turn into ti
 git clone https://github.com/yourusername/tasksprout.git
 
 ### 🧑‍💻 2. Open the project in Android Studio
+
 ### 🔑 3. Add your Firebase configuration
 Place your google-services.json file inside the /app folder
 
 ### 🔄 4. Sync & Run
 Sync Gradle
 
-Run the app on an Android emulator or physical device
+Run the app on an Android emulator or physical android device (not suitable for apple users)
 
 ---
 
@@ -176,3 +179,8 @@ For a complete breakdown of features, logic, and implementation decisions, check
 
 [TaskSprout🌿 Documantaion.pdf](https://github.com/user-attachments/files/21576531/TaskSprout.Documantaion.pdf)
 
+---
+
+### 🌱 Let’s Grow!
+Productivity doesn't have to be boring.
+Level up your to-do list and grow your forest — one task at a time 🍀
